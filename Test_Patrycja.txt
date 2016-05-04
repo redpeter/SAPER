@@ -1,0 +1,4 @@
+Hejo! 
+Pomyœlnie zainstalowa³am GitHub’a oraz TartoiseGit :D 
+Problemy napotkane: brak
+
