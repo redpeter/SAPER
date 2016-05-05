@@ -10,4 +10,5 @@ struct pole {
 
 void deleteArray(pole ***, int);
 struct pole** createArray(int, int);
+void Write(pole **, int, int);
 #endif
