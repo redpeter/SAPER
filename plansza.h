@@ -8,7 +8,5 @@ struct pole {
 	bool odkryte;
 };
 
-void deleteArray(pole ***, int);
-struct pole** createArray(int, int);
-
+void deleteArray(pole ***, int);struct pole** createArray(int, int);
 #endif
