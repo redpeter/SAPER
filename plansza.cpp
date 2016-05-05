@@ -1,4 +1,4 @@
-#include "plansza.h"
+//#include "plansza.h"
 #include <iostream>
 
 using namespace std;
@@ -32,9 +32,30 @@ struct pole** createArray(int row, int col)
 	  }
   return tab;
 }
+void Write(pole** src, int row, int col) 
+{
+	int i, j;
+	cout << "\n\n";
+	if (*src == NULL)
+	{
+		cout << "Problem z odczytaniem tablicy";
+	}
+	else
+	{
+		for (i = 0; i < row; i++)
+		{
+			for (j = 0; j < col; j++)
+			{
+				cout << src[i][j];
+			}
+		}
+	}
+}
+int main()
+{
+	return 0;
 
-
-
+}
 
 
 
