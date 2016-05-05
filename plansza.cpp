@@ -51,11 +51,7 @@ void Write(pole** src, int row, int col)
 		}
 	}
 }
-int main()
-{
-	return 0;
 
-}
 
 
 
