@@ -10,5 +10,6 @@ struct pole {
 	bool odkryte;
 };
 
+void deleteArray(pole ***, int);
 
 #endif
