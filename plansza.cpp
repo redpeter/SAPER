@@ -27,24 +27,20 @@ struct pole **createArray(int row, int col)
   			tab[j][k].wartosc=0;
   			tab[j][k].odkryte=false;
 		  }
-	  }
-  return tab;
+	}
+	return tab;
 }
 
 void Write(pole** src, int row, int col)
 {
 	int i, j;
 	cout << "\n\n";
-	if (*src == NULL)
-	{
+	if (*src == NULL){
 		cout << "Problem z odczytaniem tablicy";
 	}
-	else
-	{
-		for (i = 0; i < row; i++)
-		{
-			for (j = 0; j < col; j++)
-			{
+	else {
+		for (i = 0; i < row; i++) {
+			for (j = 0; j < col; j++) {
 				cout << src[i][j].wartosc;
 			}
 			cout << "\n";
