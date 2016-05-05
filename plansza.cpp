@@ -46,8 +46,9 @@ void Write(pole** src, int row, int col)
 		{
 			for (j = 0; j < col; j++)
 			{
-				cout << src[i][j];
+				cout << src[i][j].wartosc;
 			}
+			cout << "\n";
 		}
 	}
 }
