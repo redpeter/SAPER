@@ -5,6 +5,10 @@
 
 using namespace std;
 
+struct pole {
+	int wartosc;
+	bool odkryte;
+};
 
 
 #endif
