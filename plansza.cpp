@@ -1,8 +1,6 @@
 #include "plansza.h"
 #include <iostream>
 
-using namespace std;
-
 void deleteArray(pole ***pArray, int n)
 {
 	for(int i=0; i<n; i++)
@@ -10,10 +8,10 @@ void deleteArray(pole ***pArray, int n)
 	delete[] *pArray;
 }
 
-struct pole** createArray(int row, int col)
+struct pole **createArray(int row, int col)
 {
 	//dynamiczna alokacja pamieci
-  	struct pole** tab=new struct pole* [row];
+  	struct pole **tab=new struct pole *[row];
   	if(tab==NULL)
     	return NULL;
  	for(int i=0; i<col; i++){
@@ -32,7 +30,8 @@ struct pole** createArray(int row, int col)
 	  }
   return tab;
 }
-void Write(pole** src, int row, int col) 
+
+void Write(pole** src, int row, int col)
 {
 	int i, j;
 	cout << "\n\n";
@@ -52,25 +51,3 @@ void Write(pole** src, int row, int col)
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> .theirs

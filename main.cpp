@@ -1,6 +1,6 @@
 #include "plansza.h"
 #include <iostream>
-using namespace std;
+
 int main(int argc, char**argv)
 {
 	struct pole test;
@@ -12,5 +12,6 @@ int main(int argc, char**argv)
 	if (wsk == NULL) cout << "Problem";
 	Write(wsk, 14, 15);
 	deleteArray(&wsk, 14);
+
 	return 0;
 }
