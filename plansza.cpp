@@ -44,7 +44,11 @@ void Write(pole** src, int row, int col)
 	else {
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < col; j++) {
-				cout << src[i][j].wartosc;
+				if (src[i][j].wartosc == 9) {
+					cout << "*";
+				} else {
+					cout << src[i][j].wartosc;	
+				}
 			}
 			cout << "\n";
 		}
