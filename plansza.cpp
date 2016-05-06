@@ -39,7 +39,7 @@ void Write(pole** src, int row, int col)
 	int i, j;
 	cout << "\n\n";
 	if (src == NULL){
-		cout << "Problem z odczytaniem tablicy\n";
+		cout << "Problem z odczytaniem tablicy.\n";
 	}
 	else {
 		for (i = 0; i < row; i++) {
@@ -49,12 +49,13 @@ void Write(pole** src, int row, int col)
 			cout << "\n";
 		}
 	}
+	return;
 }
 
-void random(pole **scr, int row, int col, int bombs)
+void Random(pole **scr, int row, int col, int bombs)
 {
 	if(scr==NULL){
-		cout << "problem z odczytaniem tablicy\n";
+		cout << "Problem z odczytaniem tablicy.\n";
 		return;
 	}
 	srand(time(NULL));
@@ -67,7 +68,9 @@ void random(pole **scr, int row, int col, int bombs)
 			--bombs;
 		}
 	}
+	return;
 }
+
 int Count(pole **src, int row, int col)
 {
 	int i, j, ile = 0;
@@ -76,6 +79,7 @@ int Count(pole **src, int row, int col)
 			if (src[i][j].wartosc == 9) ile++;
 		}
 	}
-	cout << "\n Na planszy pozosta³o " << ile << "bomb";
+	cout << "\nNa planszy pozostalo " << ile << " bomb.";
 	return ile;
 }
+
