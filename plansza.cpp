@@ -68,3 +68,14 @@ void random(pole **scr, int row, int col, int bombs)
 		}
 	}
 }
+int Count(pole **src, int row, int col)
+{
+	int i, j, ile = 0;
+	for (i = 0; i < row; i++) {
+		for (j = 0; j < col; j++) {
+			if (src[i][j].wartosc == 9) ile++;
+		}
+	}
+	cout << "\n Na planszy pozosta³o " << ile << "bomb";
+	return ile;
+}
