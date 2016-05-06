@@ -3,7 +3,7 @@
 
 int main(int argc, char**argv)
 {
-    Test(14,15,10);
+    Test(20,20,15);
 
 	return 0;
 }

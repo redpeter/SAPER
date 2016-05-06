@@ -3,32 +3,32 @@
 #include <cstdlib>
 #include <ctime>
 
-void deleteArray(pole ***pArray, int n)
+void DeleteArray(pole ***pArray, int row)
 {
-	for(int i=0; i<n; i++)
+	for(int i=0; i<row; i++)
 		delete[] (*pArray)[i];
 	delete[] *pArray;
 	*pArray = NULL;
 }
 
-struct pole **createArray(int row, int col)
+struct pole **CreateArray(int row, int col)
 {
 	//dynamiczna alokacja pamieci
   	struct pole **tab=new struct pole *[row];
-  	if(tab==NULL)
+  	if(tab == NULL)
     	return NULL;
  	for(int i=0; i<col; i++){
    		tab[i]=new struct pole [col];
-    	if(tab[i]==NULL){
-      		deleteArray(&tab, i);
+    	if(tab[i] == NULL){
+      		DeleteArray(&tab, i);
       		return NULL;
     	}
   	}
   	//nadanie poczatkowych wartosci
   	for(int j=0; j<row; j++){
   		for(int k=0; k<col; k++){
-  			tab[j][k].wartosc=0;
-  			tab[j][k].odkryte=false;
+  			tab[j][k].wartosc = 0;
+  			tab[j][k].odkryte = false;
 		  }
 	}
 	return tab;
@@ -41,12 +41,12 @@ void Write(pole** src, int row, int col)
 	if (src == NULL){
 		cout << "Problem z odczytaniem tablicy.\n";
 	}
-	else {
-		for (i = 0; i < row; i++) {
-			for (j = 0; j < col; j++) {
-				if (src[i][j].wartosc == BOMB) {
+	else{
+		for (i=0; i<row; i++){
+			for (j=0; j<col; j++) {
+				if (src[i][j].wartosc == BOMB)
 					cout << "*";
-				} else {
+				else{
 				    if (src[i][j].wartosc == 0)
                         cout << " ";
                     else
@@ -80,23 +80,24 @@ void Random(pole **scr, int row, int col, int bombs)
 
 int Count(pole **src, int row, int col)
 {
-	int i, j, ile = 0;
-	for (i = 0; i < row; i++) {
-		for (j = 0; j < col; j++) {
+	int i, j, ile=0;
+	for (i=0; i<row; i++){
+		for (j=0; j<col; j++){
 			if (src[i][j].wartosc == BOMB) ile++;
 		}
 	}
-	cout << "\nNa planszy pozostalo " << ile << " bomb."<<endl;
+	cout << "\nNa planszy pozostalo " << ile << " bomb.\n";
 	return ile;
 }
 
 void Test(int row, int col, int bomb)
 {
 	struct pole** tab;
-	tab = createArray(row, col);
-	if (tab == NULL) cout << "Problem\n";
+	tab = CreateArray(row, col);
+	if (tab == NULL)
+        cout << "Problem\n";
 	Random(tab, row, col, bomb);
 	Write(tab, row, col);
 	Count(tab, row, col);
-	deleteArray(&tab, row);
+	DeleteArray(&tab, row);
 }
