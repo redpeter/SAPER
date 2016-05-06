@@ -9,7 +9,8 @@ int main(int argc, char**argv)
 	cout << test.wartosc << " " << test.odkryte;
 	struct pole** wsk;
 	wsk = createArray(14, 15);
-	if (wsk == NULL) cout << "Problem";
+	if (wsk == NULL) cout << "Problem\n";
+	random(wsk, 14, 15, 10);
 	Write(wsk, 14, 15);
 	deleteArray(&wsk, 14);
 

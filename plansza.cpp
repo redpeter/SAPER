@@ -1,11 +1,14 @@
 #include "plansza.h"
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 void deleteArray(pole ***pArray, int n)
 {
 	for(int i=0; i<n; i++)
 		delete[] (*pArray)[i];
 	delete[] *pArray;
+	*pArray = NULL;
 }
 
 struct pole **createArray(int row, int col)
@@ -35,8 +38,8 @@ void Write(pole** src, int row, int col)
 {
 	int i, j;
 	cout << "\n\n";
-	if (*src == NULL){
-		cout << "Problem z odczytaniem tablicy";
+	if (src == NULL){
+		cout << "Problem z odczytaniem tablicy\n";
 	}
 	else {
 		for (i = 0; i < row; i++) {
@@ -44,6 +47,24 @@ void Write(pole** src, int row, int col)
 				cout << src[i][j].wartosc;
 			}
 			cout << "\n";
+		}
+	}
+}
+
+void random(pole **scr, int row, int col, int bombs)
+{
+	if(scr==NULL){
+		cout << "problem z odczytaniem tablicy\n";
+		return;
+	}
+	srand(time(NULL));
+	int x, y;
+	while(bombs>0){
+		x=(rand() % row);
+		y=(rand() % col);
+		if((scr[x][y]).wartosc != 9){
+			(scr[x][y]).wartosc = 9;
+			--bombs;
 		}
 	}
 }
