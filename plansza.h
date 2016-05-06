@@ -1,5 +1,6 @@
 #ifndef PLANSZA_H
 #define PLANSZA_H
+#define BOMB 9
 
 using namespace std;
 

@@ -44,7 +44,7 @@ void Write(pole** src, int row, int col)
 	else {
 		for (i = 0; i < row; i++) {
 			for (j = 0; j < col; j++) {
-				if (src[i][j].wartosc == 9) {
+				if (src[i][j].wartosc == BOMB) {
 					cout << "*";
 				} else {
 					cout << src[i][j].wartosc;	
@@ -67,8 +67,8 @@ void Random(pole **scr, int row, int col, int bombs)
 	while(bombs>0){
 		x=(rand() % row);
 		y=(rand() % col);
-		if((scr[x][y]).wartosc != 9){
-			(scr[x][y]).wartosc = 9;
+		if((scr[x][y]).wartosc != BOMB){
+			(scr[x][y]).wartosc = BOMB;
 			--bombs;
 		}
 	}
@@ -80,7 +80,7 @@ int Count(pole **src, int row, int col)
 	int i, j, ile = 0;
 	for (i = 0; i < row; i++) {
 		for (j = 0; j < col; j++) {
-			if (src[i][j].wartosc == 9) ile++;
+			if (src[i][j].wartosc == BOMB) ile++;
 		}
 	}
 	cout << "\nNa planszy pozostalo " << ile << " bomb.";
