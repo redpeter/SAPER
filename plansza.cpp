@@ -47,7 +47,7 @@ void Write(pole** src, int row, int col)
 				if (src[i][j].wartosc == BOMB) {
 					cout << "*";
 				} else {
-					cout << src[i][j].wartosc;	
+					cout << src[i][j].wartosc;
 				}
 			}
 			cout << "\n";
@@ -83,7 +83,17 @@ int Count(pole **src, int row, int col)
 			if (src[i][j].wartosc == BOMB) ile++;
 		}
 	}
-	cout << "\nNa planszy pozostalo " << ile << " bomb.";
+	cout << "\nNa planszy pozostalo " << ile << " bomb."<<endl;
 	return ile;
 }
 
+void Test(int row, int col, int bomb)
+{
+	struct pole** tab;
+	tab = createArray(row, col);
+	if (tab == NULL) cout << "Problem\n";
+	Random(tab, row, col, bomb);
+	Write(tab, row, col);
+	Count(tab, row, col);
+	deleteArray(&tab, row);
+}

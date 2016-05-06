@@ -14,5 +14,7 @@ struct pole** createArray(int, int);
 void Write(pole **, int, int);
 void Random(pole **, int, int, int);
 int Count(pole**, int, int);
+void Test(int, int, int);
+
 #endif
 
