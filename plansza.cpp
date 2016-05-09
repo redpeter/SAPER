@@ -4,7 +4,6 @@
 #include <ctime>
 
 
-
 void DeleteArray(pole ***pArray, int row)
 {
 	for(int i=0; i<row; i++)
@@ -114,6 +113,53 @@ void show(pole **src, int row, int col)
 	cout << "podaj y (od 0 do " << row-1 << "): ";
 	cin >> y;
 	src[x][y].odkryte = true;
+}
+
+int menu()
+{
+    int poziom, row, col, bomb;
+    while(1>0){
+        cout << "\nWybierz poziom gry: \n";
+        cout << "1. Poczatkujacy.\n";
+        cout << "2. Sredniozaawansowany.\n";
+        cout << "3. Eskpert.\n";
+        cout << "4. Niestandardowy.\n\n";
+        cout << "0. Wyjscie z gry.\n\n";
+        cin >> poziom;
+        switch(poziom){
+            case 0:
+                return 0;
+            case 1:
+                row=col=8;
+                bomb=10;
+
+                break;
+            case 2:
+                row=col=16;
+                bomb=40;
+
+                break;
+            case 3:
+                row=16;
+                col=30;
+                bomb=99;
+
+                break;
+            case 4:
+                cout << "Podaj wymiary Twojej tablicy.\nLiczba wierszy: \n";
+                cin >> row;
+                cout << "Liczba kolumn: \n";
+                cin >> col;
+                cout << "Teraz podaj liczbê bomb: \n";
+                cin >> bomb;
+
+                break;
+            default:
+                system("cls");
+                cout<<"Ups. Nieprawidlowy wybor. Wcisnij cyfre od 0 do 4.\n";
+                break;
+        }
+    }
 }
 
 void Test(int row, int col, int bomb)
