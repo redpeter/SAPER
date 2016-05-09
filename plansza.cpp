@@ -3,6 +3,8 @@
 #include <cstdlib>
 #include <ctime>
 
+
+
 void DeleteArray(pole ***pArray, int row)
 {
 	for(int i=0; i<row; i++)
@@ -75,7 +77,7 @@ void Random(pole **src, int row, int col, int bombs)
 			int r, c;
 			for(r=-1; r<=1; r++){
 				for(c=-1; c<=1; c++){
-					if((x + r) < 0 || (y + c) < 0 || (x + r) > row || (y + c) > col) {
+					if((x + r) < 0 || (y + c) < 0 || (x + r) >= row || (y + c) >= col) {
 						continue; //nic bo poza brzegiem
 					}
 					if((src[x+r][y+c]).wartosc == BOMB){
@@ -100,6 +102,16 @@ int Count(pole **src, int row, int col)
 	}
 	cout << "\nNa planszy pozostalo " << ile << " bomb.\n";
 	return ile;
+}
+
+void show(pole **src, int row, int col)
+{
+	int x, y;
+	cout << "podaj x (od 0 do " << col-1 << "): ";
+	cin >> x;
+	cout << "podaj y (od 0 do " << row-1 << "): ";
+	cin >> y;
+	src[x][y].odkryte = true;
 }
 
 void Test(int row, int col, int bomb)
