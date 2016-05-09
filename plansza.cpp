@@ -59,9 +59,9 @@ void Write(pole** src, int row, int col)
 	return;
 }
 
-void Random(pole **scr, int row, int col, int bombs)
+void Random(pole **src, int row, int col, int bombs)
 {
-	if(scr==NULL){
+	if(src==NULL){
 		cout << "Problem z odczytaniem tablicy.\n";
 		return;
 	}
@@ -70,8 +70,20 @@ void Random(pole **scr, int row, int col, int bombs)
 	while(bombs>0){
 		x=(rand() % row);
 		y=(rand() % col);
-		if((scr[x][y]).wartosc != BOMB){
-			(scr[x][y]).wartosc = BOMB;
+		if((src[x][y]).wartosc != BOMB){ //sprawdzamy czy juz nie ma bomby
+			(src[x][y]).wartosc = BOMB; //wstawiamy bombe w wylosowane pole
+			int r, c;
+			for(r=-1; r<=1; r++){
+				for(c=-1; c<=1; c++){
+					if((x + r) < 0 || (y + c) < 0 || (x + r) > row || (y + c) > col) {
+						continue; //nic bo poza brzegiem
+					}
+					if((src[x+r][y+c]).wartosc == BOMB){
+						continue; //nic bo tutaj jest jakas mina
+					}
+					(src[x+r][y+c]).wartosc += 1; //zwiekszamy o 1 bo dodalismy bombe
+				}
+			}
 			--bombs;
 		}
 	}
@@ -101,3 +113,4 @@ void Test(int row, int col, int bomb)
 	Count(tab, row, col);
 	DeleteArray(&tab, row);
 }
+
