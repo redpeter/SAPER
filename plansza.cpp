@@ -49,9 +49,11 @@ void Write(pole** src, int row, int col)
 				if (src[i][j].wartosc == BOMB&&src[i][j].odkryte == true)
 					cout << "*";
 				else{
-				    if (src[i][j].wartosc == 0|| src[i][j].odkryte == false)
+                	if (src[i][j].odkryte == false)
+                    	cout << "#";
+				    else if (src[i][j].wartosc == 0)
                         cout << " ";
-                    else
+					else
                         cout << src[i][j].wartosc;
 				}
 			}
