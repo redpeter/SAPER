@@ -46,10 +46,10 @@ void Write(pole** src, int row, int col)
 	else{
 		for (i=0; i<row; i++){
 			for (j=0; j<col; j++) {
-				if (src[i][j].wartosc == BOMB)
+				if (src[i][j].wartosc == BOMB&&src[i][j].odkryte == true)
 					cout << "*";
 				else{
-				    if (src[i][j].wartosc == 0)
+				    if (src[i][j].wartosc == 0|| src[i][j].odkryte == false)
                         cout << " ";
                     else
                         cout << src[i][j].wartosc;
@@ -121,8 +121,13 @@ void Test(int row, int col, int bomb)
 	if (tab == NULL)
         cout << "Problem\n";
 	Random(tab, row, col, bomb);
-	Write(tab, row, col);
-	Count(tab, row, col);
+	int i;
+	for (i = 0; i < 5; i++) {
+		Write(tab, row, col);
+		Count(tab, row, col);
+		show(tab, row, col);
+		system("cls");
+	}
 	DeleteArray(&tab, row);
 }
 
