@@ -93,7 +93,7 @@ void Random(pole **src, int row, int col, int bombs)
 	return;
 }
 
-void Count(pole **src, int row, int col)
+int CountBombs(pole **src, int row, int col)
 {
 	int i, j, ile=0;
 	for (i=0; i<row; i++){
@@ -102,9 +102,29 @@ void Count(pole **src, int row, int col)
 		}
 	}
 	cout << "\nNa planszy pozostalo " << ile << " bomb.\n";
+	return ile;
 }
 
-void show(pole **src, int row, int col)
+bool IsWin(pole **src, int row, int col)
+{
+	bool win = false;
+	int zakryte = 0;
+	for(int i=0; i<row; i++){
+		for(int j=0; j<col; j++){
+			if(src[i][j].odkryte == false){
+				zakryte++;
+			}
+		}
+	}
+	int bombs = CountBombs(src, row, col);
+	if (zakryte == bombs){
+		win = true;
+		cout << "Gratulacje!";
+	}
+	return win;
+}
+
+void Show(pole **src, int row, int col)
 {
 	int x, y;
 	cout << "podaj x (od 0 do " << col-1 << "): ";
@@ -114,7 +134,7 @@ void show(pole **src, int row, int col)
 	src[x][y].odkryte = true;
 }
 
-void menu()
+void Menu()
 {
     int poziom, row, col, bomby;
     while(1>0){
@@ -127,6 +147,7 @@ void menu()
         cin >> poziom;
         switch(poziom){
             case 0:
+            	cout << "Dziekujemy za wspolna zabawe.";
                 return;
             case 1:
                 row=col=8;
@@ -168,11 +189,13 @@ void Test(int row, int col, int bomb)
 	if (tab == NULL)
         cout << "Problem\n";
 	Random(tab, row, col, bomb);
-	for (int i = 0; i < 5; i++) {
+	bool wygrana = IsWin(tab, row, col);
+	while(wygrana == false) { // lub trafiles na bombe - tez koniec
 		Write(tab, row, col);
-		Count(tab, row, col);
-		show(tab, row, col);
+		CountBombs(tab, row, col);
+		Show(tab, row, col);
 		system("cls");
+		wygrana = IsWin(tab, row, col);
 	}
 	DeleteArray(&tab, row);
 }

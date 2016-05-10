@@ -5,7 +5,7 @@ using namespace std;
 
 int main(int argc, char**argv)
 {
-    menu();
+    Menu();
 
 	return 0;
 }

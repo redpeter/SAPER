@@ -13,9 +13,10 @@ void DeleteArray(pole ***, int);
 struct pole** CreateArray(int, int);
 void Write(pole **, int, int);
 void Random(pole **, int, int, int);
-void Count(pole**, int, int);
-void show(pole **, int, int);
-void menu();
+int CountBombs(pole**, int, int);
+bool IsWin(pole**, int, int);
+void Show(pole **, int, int);
+void Menu();
 void Test(int, int, int);
 
 #endif
