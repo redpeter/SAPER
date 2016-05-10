@@ -45,7 +45,7 @@ void Write(pole** src, int row, int col)
 	else{
 		for (i=0; i<row; i++){
 			for (j=0; j<col; j++) {
-				if (src[i][j].wartosc == BOMB&&src[i][j].odkryte == true)
+				if (src[i][j].wartosc == BOMB && src[i][j].odkryte == true)
 					cout << "*";
 				else{
                 	if (src[i][j].odkryte == false)
@@ -93,16 +93,15 @@ void Random(pole **src, int row, int col, int bombs)
 	return;
 }
 
-int Count(pole **src, int row, int col)
+void Count(pole **src, int row, int col)
 {
 	int i, j, ile=0;
 	for (i=0; i<row; i++){
 		for (j=0; j<col; j++){
-			if (src[i][j].wartosc == BOMB) ile++;
+			if (src[i][j].wartosc == BOMB && src[i][j].odkryte == false) ile++;
 		}
 	}
 	cout << "\nNa planszy pozostalo " << ile << " bomb.\n";
-	return ile;
 }
 
 void show(pole **src, int row, int col)
@@ -115,48 +114,48 @@ void show(pole **src, int row, int col)
 	src[x][y].odkryte = true;
 }
 
-int menu()
+void menu()
 {
-    int poziom, row, col, bomb;
+    int poziom, row, col, bomby;
     while(1>0){
         cout << "\nWybierz poziom gry: \n";
         cout << "1. Poczatkujacy.\n";
         cout << "2. Sredniozaawansowany.\n";
-        cout << "3. Eskpert.\n";
+        cout << "3. Ekspert.\n";
         cout << "4. Niestandardowy.\n\n";
         cout << "0. Wyjscie z gry.\n\n";
         cin >> poziom;
         switch(poziom){
             case 0:
-                return 0;
+                return;
             case 1:
                 row=col=8;
-                bomb=10;
-
+                bomby=10;
+                Test(row, col, bomby);
                 break;
             case 2:
                 row=col=16;
-                bomb=40;
-
+                bomby=40;
+                Test(row, col, bomby);
                 break;
             case 3:
                 row=16;
                 col=30;
-                bomb=99;
-
+                bomby=99;
+                Test(row, col, bomby);
                 break;
             case 4:
                 cout << "Podaj wymiary Twojej tablicy.\nLiczba wierszy: \n";
                 cin >> row;
                 cout << "Liczba kolumn: \n";
                 cin >> col;
-                cout << "Teraz podaj liczbê bomb: \n";
-                cin >> bomb;
-
+                cout << "Teraz podaj liczbe bomb. Musi ona byc mniejsza od "<<row*col<<" .\n";
+                cin >> bomby;
+                Test(row, col, bomby);
                 break;
             default:
                 system("cls");
-                cout<<"Ups. Nieprawidlowy wybor. Wcisnij cyfre od 0 do 4.\n";
+                cout<<"Ups. Nieprawidlowy wybor. Wybierz cyfre od 0 do 4.\n";
                 break;
         }
     }
@@ -169,8 +168,7 @@ void Test(int row, int col, int bomb)
 	if (tab == NULL)
         cout << "Problem\n";
 	Random(tab, row, col, bomb);
-	int i;
-	for (i = 0; i < 5; i++) {
+	for (int i = 0; i < 5; i++) {
 		Write(tab, row, col);
 		Count(tab, row, col);
 		show(tab, row, col);
@@ -178,4 +176,3 @@ void Test(int row, int col, int bomb)
 	}
 	DeleteArray(&tab, row);
 }
-

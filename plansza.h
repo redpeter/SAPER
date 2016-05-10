@@ -13,9 +13,9 @@ void DeleteArray(pole ***, int);
 struct pole** CreateArray(int, int);
 void Write(pole **, int, int);
 void Random(pole **, int, int, int);
-int Count(pole**, int, int);
+void Count(pole**, int, int);
 void show(pole **, int, int);
-void menu(pole **tab);
+void menu();
 void Test(int, int, int);
 
 #endif
