@@ -132,11 +132,11 @@ bool Show(pole **src, int row, int col)
 	cout << "podaj y (od 0 do " << row - 1 << "): ";
 	cin >> y;
 	src[x][y].odkryte = true;
-	
+
 	if(src[x][y].wartosc == 0){
 		ShowNeighbour(src, row, col, x, y);
 	}
-	
+
 	int i = IfBomb(src, x, y);
 	if (i == -1) {
 		Write(src, row, col);
@@ -148,6 +148,55 @@ bool Show(pole **src, int row, int col)
 		return false;
 	}
 
+}
+
+int IfBomb(pole**src, int x, int y) {
+	if (src[x][y].wartosc == BOMB) {
+		system("cls");
+		cout << "Odkryles bombe, koniec gry!";
+		return -1;
+	}
+	return 1;
+}
+
+void ShowNeighbour(pole **src, int row, int  col, int x, int y)
+{
+	for (int r = -1; r <= 1; r++) {
+		for (int c = -1; c <= 1; c++) {
+			if(r==0 && c==0)
+				c++;
+			if ((x + r) < 0 || (y + c) < 0 || (x + r) >= row || (y + c) >= col){
+				continue; //brzeg
+			}
+			if(src[x+r][y+c].wartosc != 0 && src[x+r][y+c].odkryte == false){
+				src[x+r][y+c].odkryte = true;
+			}
+			if(src[x+r][y+c].wartosc == 0 && src[x+r][y+c].odkryte == false){
+				src[x+r][y+c].odkryte = true;
+				ShowNeighbour(src, row, col, x+r, y+c);
+			}
+		}
+	}
+}
+
+void Test(int row, int col, int bomb)
+{
+	struct pole** tab;
+	tab = CreateArray(row, col);
+	if (tab == NULL)
+		cout << "Problem\n";
+	Random(tab, row, col, bomb);
+	bool wygrana = IsWin(tab, row, col);
+	bool bomba = false;
+	while (wygrana == false) { // lub trafiles na bombe - tez koniec
+		Write(tab, row, col);
+		CountBombs(tab, row, col);
+		bomba = Show(tab, row, col);
+		if (bomba == true) break;
+		system("cls");
+		wygrana = IsWin(tab, row, col);
+	}
+	DeleteArray(&tab, row);
 }
 
 void Menu()
@@ -197,54 +246,3 @@ void Menu()
 		}
 	}
 }
-
-void Test(int row, int col, int bomb)
-{
-	struct pole** tab;
-	tab = CreateArray(row, col);
-	if (tab == NULL)
-		cout << "Problem\n";
-	Random(tab, row, col, bomb);
-	bool wygrana = IsWin(tab, row, col);
-	bool bomba = false;
-	while (wygrana == false) { // lub trafiles na bombe - tez koniec
-		Write(tab, row, col);
-		CountBombs(tab, row, col);
-		bomba = Show(tab, row, col);
-		if (bomba == true) break;
-		system("cls");
-		wygrana = IsWin(tab, row, col);
-	}
-	DeleteArray(&tab, row);
-}
-int IfBomb(pole**src, int x, int y) {
-	if (src[x][y].wartosc == BOMB) {
-		system("cls");
-		cout << "Odkryles bombe, koniec gry!";
-		return -1;
-	}
-	return 1;
-}
-
-void ShowNeighbour(pole **src, int row, int  col, int x, int y)
-{
-	for (int r = -1; r <= 1; r++) {
-		for (int c = -1; c <= 1; c++) {
-			if(r==0 && c==0)
-				c++;
-			if ((x + r) < 0 || (y + c) < 0 || (x + r) >= row || (y + c) >= col){
-				continue; //brzeg
-			}
-			if(src[x+r][y+c].wartosc != 0 && src[x+r][y+c].odkryte == false){
-				src[x+r][y+c].odkryte = true;
-			}
-			if(src[x+r][y+c].wartosc == 0 && src[x+r][y+c].odkryte == false){
-				src[x+r][y+c].odkryte = true;
-				ShowNeighbour(src, row, col, x+r, y+c);
-			}
-		}
-	}
-}
-
-
-
