@@ -132,8 +132,16 @@ bool Show(pole **src, int row, int col)
 	cout << "podaj y (od 0 do " << row - 1 << "): ";
 	cin >> y;
 	src[x][y].odkryte = true;
+	
+	if(src[x][y].wartosc == 0){
+		ShowNeighbour(src, row, col, x, y);
+	}
+	
 	int i = IfBomb(src, x, y);
 	if (i == -1) {
+		Write(src, row, col);
+		CountBombs(src, row, col);
+		cout << endl << endl;
 		return true;
 	}
 	else {
@@ -211,8 +219,32 @@ void Test(int row, int col, int bomb)
 }
 int IfBomb(pole**src, int x, int y) {
 	if (src[x][y].wartosc == BOMB) {
+		system("cls");
 		cout << "Odkryles bombe, koniec gry!";
 		return -1;
 	}
 	return 1;
 }
+
+void ShowNeighbour(pole **src, int row, int  col, int x, int y)
+{
+	for (int r = -1; r <= 1; r++) {
+		for (int c = -1; c <= 1; c++) {
+			if(r==0 && c==0)
+				c++;
+			if ((x + r) < 0 || (y + c) < 0 || (x + r) >= row || (y + c) >= col){
+				continue; //brzeg
+			}
+			if(src[x+r][y+c].wartosc != 0 && src[x+r][y+c].odkryte == false){
+				src[x+r][y+c].odkryte = true;
+			}
+			if(src[x+r][y+c].wartosc == 0 && src[x+r][y+c].odkryte == false){
+				src[x+r][y+c].odkryte = true;
+				ShowNeighbour(src, row, col, x+r, y+c);
+			}
+		}
+	}
+}
+
+
+

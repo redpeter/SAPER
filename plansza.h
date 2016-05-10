@@ -19,5 +19,6 @@ bool Show(pole **, int, int);
 void Menu();
 void Test(int, int, int);
 int IfBomb(pole**, int, int);
+void ShowNeighbour(pole **, int, int, int, int);
 
 #endif
