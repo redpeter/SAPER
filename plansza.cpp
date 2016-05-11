@@ -19,7 +19,7 @@ struct pole **CreateArray(int row, int col)
 	struct pole **tab = new struct pole *[row];
 	if (tab == NULL)
 		return NULL;
-	for (int i = 0; i<col; i++) {
+	for (int i = 0; i<row; i++) {
 		tab[i] = new struct pole[col];
 		if (tab[i] == NULL) {
 			DeleteArray(&tab, i);
@@ -244,7 +244,7 @@ void Menu()
 			Test(row, col, bomby, y, x);
 			break;
 		case 3:
-			row = 30;
+			row = 16;
 			col = 30;
 			bomby = 99;
 			Test(row, col, bomby, y, x);
