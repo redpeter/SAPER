@@ -124,6 +124,15 @@ bool IsWin(pole **src, int row, int col)
 	return win;
 }
 
+int IfBomb(pole**src, int x, int y) {
+	if (src[x][y].wartosc == BOMB) {
+		system("cls");
+		cout << "Odkryles bombe, koniec gry!";
+		return -1;
+	}
+	return 1;
+}
+
 bool Show(pole **src, int row, int col)
 {
 	int x, y;
@@ -148,15 +157,6 @@ bool Show(pole **src, int row, int col)
 		return false;
 	}
 
-}
-
-int IfBomb(pole**src, int x, int y) {
-	if (src[x][y].wartosc == BOMB) {
-		system("cls");
-		cout << "Odkryles bombe, koniec gry!";
-		return -1;
-	}
-	return 1;
 }
 
 void ShowNeighbour(pole **src, int row, int  col, int x, int y)
