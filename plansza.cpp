@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 
-
+/*Usuwa tablice 2D*/
 void DeleteArray(pole ***pArray, int row)
 {
 	for (int i = 0; i<row; i++)
@@ -12,6 +12,7 @@ void DeleteArray(pole ***pArray, int row)
 	*pArray = NULL;
 }
 
+/*Tworzy tablice 2D, inicjuje ja wartosciami 0 i false */
 struct pole **CreateArray(int row, int col)
 {
 	//dynamiczna alokacja pamieci
@@ -35,6 +36,7 @@ struct pole **CreateArray(int row, int col)
 	return tab;
 }
 
+/*Wypisuje plansze na ekran */
 void Write(pole** src, int row, int col)
 {
 	int i, j;
@@ -62,6 +64,7 @@ void Write(pole** src, int row, int col)
 	return;
 }
 
+/*Rozmieszcza losowo zadana liczbe bomb na planszy */
 void Random(pole **src, int row, int col, int bombs)
 {
 	if (src == NULL) {
@@ -93,18 +96,24 @@ void Random(pole **src, int row, int col, int bombs)
 	return;
 }
 
+/*Zlicza bomby i wypisuje ich liczbe na ekran
+Zwraca liczbe bomb na planszy */
 int CountBombs(pole **src, int row, int col)
 {
 	int i, j, ile = 0;
 	for (i = 0; i<row; i++) {
 		for (j = 0; j<col; j++) {
-			if (src[i][j].wartosc == BOMB && src[i][j].odkryte == false) ile++;
+			if (src[i][j].wartosc == BOMB) ile++;
+//			if (src[i][j].wartosc == BOMB && src[i][j].odkryte == false) ile++;
+//jak juz odkryjemy jakas bombe to i tak jest po ptakach...
+//po odkryciu bomby blednie zliczaloby bomby. w takiej wersji zliczanie flag
 		}
 	}
 	cout << "\nNa planszy pozostalo " << ile << " bomb.\n";
 	return ile;
 }
 
+/*Sprawdza, czy nastapila juz wygrana */
 bool IsWin(pole **src, int row, int col)
 {
 	bool win = false;
@@ -119,12 +128,13 @@ bool IsWin(pole **src, int row, int col)
 	int bombs = CountBombs(src, row, col);
 	if (zakryte == bombs) {
 		win = true;
-		cout << "Gratulacje!";
+		cout << "Gratulacje, wygrana!";
 	}
 	return win;
 }
 
-/*Sprawdza, czy odkryto bombe.*/
+/*Sprawdza, czy odkryto bombe, czysci ekran 
+i informuje uzytkownika o ewentualnej przegranej.*/
 bool IfBomb(pole**src, int row, int col, int y, int x) {
 	if (src[y][x].wartosc == BOMB) {
 		system("cls");
@@ -145,19 +155,22 @@ bool IfBomb(pole**src, int row, int col, int y, int x) {
 	*/
 }
 
+
+/*Rekurencyjnie odkrywa sasiadow pustego pola */
 void ShowNeighbour(pole **src, int row, int  col, int y, int x)
 {
+	//UWAGA - 'puste' pole nigdy nie sasiaduje z bomba!
 	for (int r = -1; r <= 1; r++) {
 		for (int c = -1; c <= 1; c++) {
-			if (r == 0 && c == 0)
+			if (r == 0 && c == 0) //obecne pole - juz odkryte
 				c++;
 			if ((y + r) < 0 || (x + c) < 0 || (y + r) >= row || (x + c) >= col) {
 				continue; //brzeg
 			}
-			if (src[y + r][x + c].wartosc != 0 && src[y + r][x + c].odkryte == false) {
+			if (src[y + r][x + c].wartosc != 0 && src[y + r][x + c].odkryte == false) { //odkryj niepuste
 				src[y + r][x + c].odkryte = true;
 			}
-			if (src[y + r][x + c].wartosc == 0 && src[y + r][x + c].odkryte == false) {
+			if (src[y + r][x + c].wartosc == 0 && src[y + r][x + c].odkryte == false) { //dla pustych rekurencja - odkrywaj dalej
 				src[y + r][x + c].odkryte = true;
 				ShowNeighbour(src, row, col, y + r, x + c);
 			}
@@ -165,7 +178,8 @@ void ShowNeighbour(pole **src, int row, int  col, int y, int x)
 	}
 }
 
-void Show(pole **src, int row, int col, int &y, int &x)
+/*Pobiera od usera pole do odkrycia i odkrywa je*/
+void ShowCell(pole **src, int row, int col, int &y, int &x)
 {
 	cout << "podaj x (od 0 do " << col - 1 << "): ";
 	cin >> x;
@@ -177,6 +191,7 @@ void Show(pole **src, int row, int col, int &y, int &x)
 		ShowNeighbour(src, row, col, y, x);
 	}
 }
+
 
 void Test(int row, int col, int bomb, int &y, int &x)
 {
@@ -190,7 +205,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	while (1) { // lub trafiles na bombe - tez koniec
 		Write(tab, row, col);
 		CountBombs(tab, row, col);
-		Show(tab, row, col, y, x);
+		ShowCell(tab, row, col, y, x);
 		bomba = IfBomb(tab, row, col, y, x);
 		if (bomba == true) {
 			Write(tab, row, col);

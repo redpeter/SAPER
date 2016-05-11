@@ -16,7 +16,7 @@ void Random(pole **, int, int, int);
 int CountBombs(pole**, int, int);
 bool IsWin(pole**, int, int);
 bool IfBomb(pole**, int, int, int, int);
-void Show(pole **, int, int, int&, int&);
+void ShowCell(pole **, int, int, int&, int&);
 void ShowNeighbour(pole **, int, int, int, int);
 void Test(int, int, int, int&, int&);
 void Menu();
