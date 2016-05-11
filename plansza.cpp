@@ -1,7 +1,8 @@
 #include "plansza.h"
 #include <iostream>
 #include <cstdlib>
-#include <ctime>
+#include <ctime> //do losowania liczb
+#include <conio.h> //obsluga klawiszy
 
 /*Usuwa tablice 2D*/
 void DeleteArray(pole ***pArray, int row)
@@ -37,7 +38,7 @@ struct pole **CreateArray(int row, int col)
 }
 
 /*Wypisuje plansze na ekran */
-void Write(pole** src, int row, int col)
+void Write(pole** src, int row, int col, int y, int x)
 {
 	int i, j;
 	cout << "\n\n";
@@ -50,8 +51,10 @@ void Write(pole** src, int row, int col)
 				if (src[i][j].wartosc == BOMB && src[i][j].odkryte == true)
 					cout << "*";
 				else {
-					if (src[i][j].odkryte == false)
+					if (src[i][j].odkryte == false && (i!=y || j!=x))
 						cout << "#";
+					else if (src[i][j].odkryte == false && (i==y && j==x))		//dodalem pytajnik, zeby widziec gdzie jestesmy
+						cout << "?";
 					else if (src[i][j].wartosc == 0)
 						cout << " ";
 					else
@@ -140,7 +143,7 @@ bool IfBomb(pole**src, int row, int col, int y, int x) {
 		system("cls");
 
 //Po co wywoluje te funkcje?
-//		Write(src, row, col);
+//		Write(src, row, col, y, x);
 //		CountBombs(src, row, col);
 //		cout << endl << endl;
 		cout << "Odkryles bombe, koniec gry!";
@@ -149,7 +152,7 @@ bool IfBomb(pole**src, int row, int col, int y, int x) {
 	return false;
 	/*	int i = IfBomb(src, y, x);   // fragment wyciety z show
 	if (i == -1) {
-	Write(src, row, col);
+	Write(src, row, col, y, x);
 	CountBombs(src, row, col);
 	cout << endl << endl;
 	*/
@@ -178,7 +181,10 @@ void ShowNeighbour(pole **src, int row, int  col, int y, int x)
 	}
 }
 
-/*Pobiera od usera pole do odkrycia i odkrywa je*/
+
+
+/*Pobiera od usera pole do odkrycia i odkrywa je
+
 void ShowCell(pole **src, int row, int col, int &y, int &x)
 {
 	cout << "podaj x (od 0 do " << col - 1 << "): ";
@@ -191,7 +197,49 @@ void ShowCell(pole **src, int row, int col, int &y, int &x)
 		ShowNeighbour(src, row, col, y, x);
 	}
 }
+*/
 
+void PressKey(pole **src, int row, int col, int &y, int &x)
+{
+	bool walk = true; 	//warunek dokad "chodzimy" po planszy
+	int code;			//zmienna przetrzymujaca kod danego klawisza 
+	while(walk){
+		cout << "Jestes na polu: (" << x << ", " << y << ") " << endl;
+		code = getch();				//pobranie kodu wcisnietego klawisza (funkcja ta jest dostepna w bibliotece conio.h)
+		switch (code){
+			case 13:				//nacisniecie entera
+				src[y][x].odkryte = true;
+				if (src[y][x].wartosc == 0) 
+					ShowNeighbour(src, row, col, y, x);
+				walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
+				break;
+			case 224:				//nacisniecie znaku specjalnego
+				code = getch();		
+				switch (code){	
+					case 72:		//strzalka w gore
+						if(y>0)
+							y--;
+						break;
+					case 80:		//strzalka w dol
+						if(y<row-1)
+							y++;
+						break;
+					case 75:		//strzalka w lewo
+						if(x>0)
+							x--;
+						break;
+					case 77:		//strzalka w prawo
+						if(x<col-1)
+							x++;
+						break;
+				}
+				system("cls");		//chodzimy dalej...
+				Write(src, row, col, y, x);
+				CountBombs(src, row, col);	
+				break;
+		}
+	}
+}
 
 void Test(int row, int col, int bomb, int &y, int &x)
 {
@@ -203,16 +251,23 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	bool wygrana = IsWin(tab, row, col);
 	bool bomba = false;
 	while (1) { // lub trafiles na bombe - tez koniec
-		Write(tab, row, col);
+		Write(tab, row, col, y, x);
 		CountBombs(tab, row, col);
-		ShowCell(tab, row, col, y, x);
+		//ShowCell(tab, row, col, y, x);
+		PressKey(tab, row, col, y, x);
 		bomba = IfBomb(tab, row, col, y, x);
 		if (bomba == true) {
-			Write(tab, row, col);
+			Write(tab, row, col, y, x);
+			x=0;
+			y=0;
 			break;
 		}
 		wygrana = IsWin(tab, row, col);
-		if(wygrana == true) break;
+		if(wygrana == true){
+			x=0;
+			y=0;
+			break;
+		} 
 		system("cls");
 	}
 	DeleteArray(&tab, row);
@@ -220,7 +275,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 
 void Menu()
 {
-	int poziom, row, col, bomby, x, y;
+	int poziom, row, col, bomby, x=0, y=0;
 	while (1>0) {
 		cout << "\nWybierz poziom gry: \n";
 		cout << "1. Poczatkujacy.\n";
