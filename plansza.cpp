@@ -124,12 +124,15 @@ bool IsWin(pole **src, int row, int col)
 	return win;
 }
 
+/*Sprawdza, czy odkryto bombe.*/
 bool IfBomb(pole**src, int row, int col, int y, int x) {
 	if (src[y][x].wartosc == BOMB) {
 		system("cls");
-		Write(src, row, col);
-		CountBombs(src, row, col);
-		cout << endl << endl;
+
+//Po co wywoluje te funkcje?
+//		Write(src, row, col);
+//		CountBombs(src, row, col);
+//		cout << endl << endl;
 		cout << "Odkryles bombe, koniec gry!";
 		return true;
 	}
@@ -140,19 +143,6 @@ bool IfBomb(pole**src, int row, int col, int y, int x) {
 	CountBombs(src, row, col);
 	cout << endl << endl;
 	*/
-}
-
-void Show(pole **src, int row, int col, int &y, int &x)
-{
-	cout << "podaj x (od 0 do " << col - 1 << "): ";
-	cin >> x;
-	cout << "podaj y (od 0 do " << row - 1 << "): ";
-	cin >> y;
-	src[y][x].odkryte = true;
-
-	if (src[y][x].wartosc == 0) {
-		ShowNeighbour(src, row, col, y, x);
-	}
 }
 
 void ShowNeighbour(pole **src, int row, int  col, int y, int x)
@@ -175,6 +165,19 @@ void ShowNeighbour(pole **src, int row, int  col, int y, int x)
 	}
 }
 
+void Show(pole **src, int row, int col, int &y, int &x)
+{
+	cout << "podaj x (od 0 do " << col - 1 << "): ";
+	cin >> x;
+	cout << "podaj y (od 0 do " << row - 1 << "): ";
+	cin >> y;
+	src[y][x].odkryte = true;
+
+	if (src[y][x].wartosc == 0) {
+		ShowNeighbour(src, row, col, y, x);
+	}
+}
+
 void Test(int row, int col, int bomb, int &y, int &x)
 {
 	struct pole** tab;
@@ -184,14 +187,18 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	Random(tab, row, col, bomb);
 	bool wygrana = IsWin(tab, row, col);
 	bool bomba = false;
-	while (wygrana == false) { // lub trafiles na bombe - tez koniec
+	while (1) { // lub trafiles na bombe - tez koniec
 		Write(tab, row, col);
 		CountBombs(tab, row, col);
 		Show(tab, row, col, y, x);
 		bomba = IfBomb(tab, row, col, y, x);
-		if (bomba == true) break;
-		system("cls");
+		if (bomba == true) {
+			Write(tab, row, col);
+			break;
+		}
 		wygrana = IsWin(tab, row, col);
+		if(wygrana == true) break;
+		system("cls");
 	}
 	DeleteArray(&tab, row);
 }
@@ -222,7 +229,7 @@ void Menu()
 			Test(row, col, bomby, y, x);
 			break;
 		case 3:
-			row = 16;
+			row = 30;
 			col = 30;
 			bomby = 99;
 			Test(row, col, bomby, y, x);
