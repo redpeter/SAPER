@@ -144,9 +144,9 @@ bool IfBomb(pole**src, int row, int col, int x, int y) {
 
 void Show(pole **src, int row, int col, int &x, int &y)
 {
-	cout << "podaj x (od 0 do " << col - 1 << "): ";
+	cout << "podaj wiersz (od 0 do " << row - 1 << "): ";
 	cin >> x;
-	cout << "podaj y (od 0 do " << row - 1 << "): ";
+	cout << "podaj kolumne (od 0 do " << col - 1 << "): ";
 	cin >> y;
 	src[x][y].odkryte = true;
 
