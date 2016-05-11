@@ -135,18 +135,18 @@ int IfBomb(pole**src, int x, int y) {
 
 bool Show(pole **src, int row, int col)
 {
-	int x, y;
+	int x, y; //x- kolumna, y-wiersz!!!
 	cout << "podaj x (od 0 do " << col - 1 << "): ";
 	cin >> x;
 	cout << "podaj y (od 0 do " << row - 1 << "): ";
 	cin >> y;
-	src[x][y].odkryte = true;
+	src[y][x].odkryte = true;
 
-	if(src[x][y].wartosc == 0){
-		ShowNeighbour(src, row, col, x, y);
+	if(src[y][x].wartosc == 0){
+		ShowNeighbour(src, row, col, y, x);
 	}
 
-	int i = IfBomb(src, x, y);
+	int i = IfBomb(src, y, x);
 	if (i == -1) {
 		Write(src, row, col);
 		CountBombs(src, row, col);
