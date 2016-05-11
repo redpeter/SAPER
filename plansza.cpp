@@ -124,62 +124,58 @@ bool IsWin(pole **src, int row, int col)
 	return win;
 }
 
-int IfBomb(pole**src, int x, int y) {
+bool IfBomb(pole**src, int row, int col, int x, int y) {
 	if (src[x][y].wartosc == BOMB) {
 		system("cls");
+		Write(src, row, col);
+		CountBombs(src, row, col);
+		cout << endl << endl;
 		cout << "Odkryles bombe, koniec gry!";
-		return -1;
+		return true;
 	}
-	return 1;
+	return false;
+	/*	int i = IfBomb(src, x, y);   // fragment wyciêty z show
+	if (i == -1) {
+	Write(src, row, col);
+	CountBombs(src, row, col);
+	cout << endl << endl;
+	*/
 }
 
-bool Show(pole **src, int row, int col)
+void Show(pole **src, int row, int col, int &x, int &y)
 {
-	int x, y;
 	cout << "podaj x (od 0 do " << col - 1 << "): ";
 	cin >> x;
 	cout << "podaj y (od 0 do " << row - 1 << "): ";
 	cin >> y;
 	src[x][y].odkryte = true;
 
-	if(src[x][y].wartosc == 0){
+	if (src[x][y].wartosc == 0) {
 		ShowNeighbour(src, row, col, x, y);
 	}
-
-	int i = IfBomb(src, x, y);
-	if (i == -1) {
-		Write(src, row, col);
-		CountBombs(src, row, col);
-		cout << endl << endl;
-		return true;
-	}
-	else {
-		return false;
-	}
-
 }
 
 void ShowNeighbour(pole **src, int row, int  col, int x, int y)
 {
 	for (int r = -1; r <= 1; r++) {
 		for (int c = -1; c <= 1; c++) {
-			if(r==0 && c==0)
+			if (r == 0 && c == 0)
 				c++;
-			if ((x + r) < 0 || (y + c) < 0 || (x + r) >= row || (y + c) >= col){
+			if ((x + r) < 0 || (y + c) < 0 || (x + r) >= row || (y + c) >= col) {
 				continue; //brzeg
 			}
-			if(src[x+r][y+c].wartosc != 0 && src[x+r][y+c].odkryte == false){
-				src[x+r][y+c].odkryte = true;
+			if (src[x + r][y + c].wartosc != 0 && src[x + r][y + c].odkryte == false) {
+				src[x + r][y + c].odkryte = true;
 			}
-			if(src[x+r][y+c].wartosc == 0 && src[x+r][y+c].odkryte == false){
-				src[x+r][y+c].odkryte = true;
-				ShowNeighbour(src, row, col, x+r, y+c);
+			if (src[x + r][y + c].wartosc == 0 && src[x + r][y + c].odkryte == false) {
+				src[x + r][y + c].odkryte = true;
+				ShowNeighbour(src, row, col, x + r, y + c);
 			}
 		}
 	}
 }
 
-void Test(int row, int col, int bomb)
+void Test(int row, int col, int bomb, int &x, int&y)
 {
 	struct pole** tab;
 	tab = CreateArray(row, col);
@@ -191,7 +187,8 @@ void Test(int row, int col, int bomb)
 	while (wygrana == false) { // lub trafiles na bombe - tez koniec
 		Write(tab, row, col);
 		CountBombs(tab, row, col);
-		bomba = Show(tab, row, col);
+		Show(tab, row, col, x, y);
+		bomba = IfBomb(tab, row, col, x, y);
 		if (bomba == true) break;
 		system("cls");
 		wygrana = IsWin(tab, row, col);
@@ -201,7 +198,7 @@ void Test(int row, int col, int bomb)
 
 void Menu()
 {
-	int poziom, row, col, bomby;
+	int poziom, row, col, bomby, x, y;
 	while (1>0) {
 		cout << "\nWybierz poziom gry: \n";
 		cout << "1. Poczatkujacy.\n";
@@ -217,18 +214,18 @@ void Menu()
 		case 1:
 			row = col = 8;
 			bomby = 10;
-			Test(row, col, bomby);
+			Test(row, col, bomby, x, y);
 			break;
 		case 2:
 			row = col = 16;
 			bomby = 40;
-			Test(row, col, bomby);
+			Test(row, col, bomby, x, y);
 			break;
 		case 3:
 			row = 16;
 			col = 30;
 			bomby = 99;
-			Test(row, col, bomby);
+			Test(row, col, bomby, x, y);
 			break;
 		case 4:
 			cout << "Podaj wymiary Twojej tablicy.\nLiczba wierszy: \n";
@@ -237,7 +234,7 @@ void Menu()
 			cin >> col;
 			cout << "Teraz podaj liczbe bomb. Musi ona byc mniejsza od " << row*col << " .\n";
 			cin >> bomby;
-			Test(row, col, bomby);
+			Test(row, col, bomby, x, y);
 			break;
 		default:
 			system("cls");
