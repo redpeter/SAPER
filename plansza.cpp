@@ -133,6 +133,8 @@ bool IsWin(pole **src, int row, int col)
 	int bombs = CountBombs(src, row, col);
 	if (zakryte == bombs) {
 		win = true;
+		system("cls");
+		cout << "\n";
 		cout << "Gratulacje, wygrana!";
 	}
 	return win;
@@ -268,6 +270,8 @@ void Test(int row, int col, int bomb, int &y, int &x)
 		if(wygrana == true){
 			x=0;
 			y=0;
+            Write(tab, row, col, y, x);
+            cout<<"\n";
 			break;
 		}
 		system("cls");
