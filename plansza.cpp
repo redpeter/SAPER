@@ -272,7 +272,9 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	Random(tab, row, col, bomb);
 	bool wygrana = IsWin(tab, row, col);
 	bool bomba = false;
-	while (1) { // lub trafiles na bombe - tez koniec
+	int zakryte = row*col;// zakryte pola
+	zakryte -= bomb;
+	while (zakryte!=0) {
 		Write(tab, row, col, y, x);
 		CountBombs(tab, row, col);
 		//ShowCell(tab, row, col, y, x);
@@ -284,16 +286,16 @@ void Test(int row, int col, int bomb, int &y, int &x)
 			y=0;
 			break;
 		}
-		wygrana = IsWin(tab, row, col);
-		if(wygrana == true){
-			x=0;
-			y=0;
-            Write(tab, row, col, y, x);
-            cout<<"\n";
-			break;
-		}
+		//wygrana = IsWin(tab, row, col);
+		zakryte--;
 		system("cls");
 	}
+		x = 0;
+		y = 0;
+		cout << "Gratulacje, wygrales!\n\n";
+		Write(tab, row, col, y, x);
+		cout << "\n";
+		
 	DeleteArray(&tab, row);
 }
 
