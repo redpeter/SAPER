@@ -55,6 +55,8 @@ void Write(pole** src, int row, int col, int y, int x)
 						cout << "#";
 					else if (src[i][j].odkryte == false && (i==y && j==x))		//dodalem pytajnik, zeby widziec gdzie jestesmy
 						cout << "?";
+                    else if (src[i][j].odkryte == false && src[i][j].flaga == true)      //wyswietlanie choragiewek jako wykrzyknik
+                        cout << "!";
 					else if (src[i][j].wartosc == 0)
 						cout << " ";
 					else
@@ -136,7 +138,7 @@ bool IsWin(pole **src, int row, int col)
 	return win;
 }
 
-/*Sprawdza, czy odkryto bombe, czysci ekran 
+/*Sprawdza, czy odkryto bombe, czysci ekran
 i informuje uzytkownika o ewentualnej przegranej.*/
 bool IfBomb(pole**src, int row, int col, int y, int x) {
 	if (src[y][x].wartosc == BOMB) {
@@ -202,20 +204,20 @@ void ShowCell(pole **src, int row, int col, int &y, int &x)
 void PressKey(pole **src, int row, int col, int &y, int &x)
 {
 	bool walk = true; 	//warunek dokad "chodzimy" po planszy
-	int code;			//zmienna przetrzymujaca kod danego klawisza 
+	int code;			//zmienna przetrzymujaca kod danego klawisza
 	while(walk){
 		cout << "Jestes na polu: (" << x << ", " << y << ") " << endl;
 		code = getch();				//pobranie kodu wcisnietego klawisza (funkcja ta jest dostepna w bibliotece conio.h)
 		switch (code){
 			case 13:				//nacisniecie entera
 				src[y][x].odkryte = true;
-				if (src[y][x].wartosc == 0) 
+				if (src[y][x].wartosc == 0)
 					ShowNeighbour(src, row, col, y, x);
 				walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
 				break;
 			case 224:				//nacisniecie znaku specjalnego
-				code = getch();		
-				switch (code){	
+				code = getch();
+				switch (code){
 					case 72:		//strzalka w gore
 						if(y>0)
 							y--;
@@ -235,7 +237,7 @@ void PressKey(pole **src, int row, int col, int &y, int &x)
 				}
 				system("cls");		//chodzimy dalej...
 				Write(src, row, col, y, x);
-				CountBombs(src, row, col);	
+				CountBombs(src, row, col);
 				break;
 		}
 	}
@@ -267,7 +269,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 			x=0;
 			y=0;
 			break;
-		} 
+		}
 		system("cls");
 	}
 	DeleteArray(&tab, row);

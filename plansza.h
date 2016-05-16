@@ -7,6 +7,7 @@ using namespace std;
 struct pole {
 	int wartosc;
 	bool odkryte;
+	bool flaga;
 };
 
 void DeleteArray(pole ***, int);
