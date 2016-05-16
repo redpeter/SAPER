@@ -56,7 +56,7 @@ void Write(pole** src, int row, int col, int y, int x)
 				if (src[i][j].wartosc == BOMB && src[i][j].odkryte == true)
 					cout << "*";
 				else {
-					if (src[i][j].odkryte == false && (i!=y || j!=x))
+					if (src[i][j].odkryte == false && (i!=y || j!=x) && src[i][j].flaga == false)
 						cout << "#";
 					else if (src[i][j].odkryte == false && (i==y && j==x))		//pytajnik, zeby widziec gdzie jestesmy
 						cout << "?";
@@ -227,6 +227,7 @@ void PressKey(pole **src, int row, int col, int &y, int &x)
 					ShowNeighbour(src, row, col, y, x);
 				walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
 				break;
+				
 			case 224:				//nacisniecie znaku specjalnego
 				code = getch();
 				switch (code){
@@ -247,6 +248,13 @@ void PressKey(pole **src, int row, int col, int &y, int &x)
 							x++;
 						break;
 				}
+				system("cls");		//chodzimy dalej...
+				Write(src, row, col, y, x);
+				CountBombs(src, row, col);
+				break;
+				
+			case 32:				//nacisniecie spacji - flaga
+				src[y][x].flaga = true;
 				system("cls");		//chodzimy dalej...
 				Write(src, row, col, y, x);
 				CountBombs(src, row, col);
