@@ -40,20 +40,25 @@ struct pole **CreateArray(int row, int col)
 /*Wypisuje plansze na ekran */
 void Write(pole** src, int row, int col, int y, int x)
 {
-	int i, j;
 	cout << "\n\n";
 	if (src == NULL) {
 		cout << "Problem z odczytaniem tablicy.\n";
 	}
 	else {
-		for (i = 0; i<row; i++) {
-			for (j = 0; j<col; j++) {
+		for (int i = 0; i < col+2; i++) { // ramka
+			cout << "-";
+		}
+		cout << endl;
+		
+		for (int i = 0; i<row; i++) {
+			cout << "|"; // ramka
+			for (int j = 0; j<col; j++) {
 				if (src[i][j].wartosc == BOMB && src[i][j].odkryte == true)
 					cout << "*";
 				else {
 					if (src[i][j].odkryte == false && (i!=y || j!=x))
 						cout << "#";
-					else if (src[i][j].odkryte == false && (i==y && j==x))		//dodalem pytajnik, zeby widziec gdzie jestesmy
+					else if (src[i][j].odkryte == false && (i==y && j==x))		//pytajnik, zeby widziec gdzie jestesmy
 						cout << "?";
                     else if (src[i][j].odkryte == false && src[i][j].flaga == true)      //wyswietlanie choragiewek jako wykrzyknik
                         cout << "!";
@@ -63,8 +68,13 @@ void Write(pole** src, int row, int col, int y, int x)
 						cout << src[i][j].wartosc;
 				}
 			}
-			cout << "\n";
+			cout << "|\n"; // ramka
 		}
+		
+		for (int i = 0; i < col+2; i++) {
+			cout << "-";
+		}
+		cout << endl;
 	}
 	return;
 }
