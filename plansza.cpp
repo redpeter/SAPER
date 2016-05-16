@@ -17,24 +17,25 @@ void DeleteArray(pole ***pArray, int row)
 struct pole **CreateArray(int row, int col)
 {
 	//dynamiczna alokacja pamieci
-	struct pole **tab = new struct pole *[row];
-	if (tab == NULL)
+	struct pole **src = new struct pole *[row];
+	if (src == NULL)
 		return NULL;
 	for (int i = 0; i<row; i++) {
-		tab[i] = new struct pole[col];
-		if (tab[i] == NULL) {
-			DeleteArray(&tab, i);
+		src[i] = new struct pole[col];
+		if (src[i] == NULL) {
+			DeleteArray(&src, i);
 			return NULL;
 		}
 	}
 	//nadanie poczatkowych wartosci
 	for (int j = 0; j<row; j++) {
 		for (int k = 0; k<col; k++) {
-			tab[j][k].wartosc = 0;
-			tab[j][k].odkryte = false;
+			src[j][k].wartosc = 0;
+			src[j][k].odkryte = false;
+			src[j][k].flaga = false;
 		}
 	}
-	return tab;
+	return src;
 }
 
 /*Wypisuje plansze na ekran */
@@ -49,7 +50,7 @@ void Write(pole** src, int row, int col, int y, int x)
 			cout << "-";
 		}
 		cout << endl;
-		
+
 		for (int i = 0; i<row; i++) {
 			cout << "|"; // ramka
 			for (int j = 0; j<col; j++) {
@@ -70,7 +71,7 @@ void Write(pole** src, int row, int col, int y, int x)
 			}
 			cout << "|\n"; // ramka
 		}
-		
+
 		for (int i = 0; i < col+2; i++) {
 			cout << "-";
 		}
@@ -227,7 +228,7 @@ void PressKey(pole **src, int row, int col, int &y, int &x)
 					ShowNeighbour(src, row, col, y, x);
 				walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
 				break;
-				
+
 			case 224:				//nacisniecie znaku specjalnego
 				code = getch();
 				switch (code){
@@ -252,7 +253,7 @@ void PressKey(pole **src, int row, int col, int &y, int &x)
 				Write(src, row, col, y, x);
 				CountBombs(src, row, col);
 				break;
-				
+
 			case 32:				//nacisniecie spacji - flaga
 				src[y][x].flaga = true;
 				system("cls");		//chodzimy dalej...
@@ -265,36 +266,36 @@ void PressKey(pole **src, int row, int col, int &y, int &x)
 
 void Test(int row, int col, int bomb, int &y, int &x)
 {
-	struct pole** tab;
-	tab = CreateArray(row, col);
-	if (tab == NULL)
+	struct pole** src;
+	src = CreateArray(row, col);
+	if (src == NULL)
 		cout << "Problem\n";
-	Random(tab, row, col, bomb);
-	bool wygrana = IsWin(tab, row, col);
+	Random(src, row, col, bomb);
+	bool wygrana = IsWin(src, row, col);
 	bool bomba = false;
 	while (1) { // lub trafiles na bombe - tez koniec
-		Write(tab, row, col, y, x);
-		CountBombs(tab, row, col);
-		//ShowCell(tab, row, col, y, x);
-		PressKey(tab, row, col, y, x);
-		bomba = IfBomb(tab, row, col, y, x);
+		Write(src, row, col, y, x);
+		CountBombs(src, row, col);
+		//ShowCell(src, row, col, y, x);
+		PressKey(src, row, col, y, x);
+		bomba = IfBomb(src, row, col, y, x);
 		if (bomba == true) {
-			Write(tab, row, col, y, x);
+			Write(src, row, col, y, x);
 			x=0;
 			y=0;
 			break;
 		}
-		wygrana = IsWin(tab, row, col);
+		wygrana = IsWin(src, row, col);
 		if(wygrana == true){
 			x=0;
 			y=0;
-            Write(tab, row, col, y, x);
+            Write(src, row, col, y, x);
             cout<<"\n";
 			break;
 		}
 		system("cls");
 	}
-	DeleteArray(&tab, row);
+	DeleteArray(&src, row);
 }
 
 void Menu()
@@ -310,7 +311,7 @@ void Menu()
 		cin >> poziom;
 		switch (poziom) {
 		case 0:
-			cout << "Dziekujemy za wspolna zabawe.";
+			cout << "Dziekujemy za wspolna zabawe.\n";
 			return;
 		case 1:
 			row = col = 8;
