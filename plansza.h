@@ -18,8 +18,8 @@ int CountFlags(pole**, int, int, int);
 bool IsWin(pole**, int, int, int);
 bool IfBomb(pole**, int, int, int, int);
 //void ShowCell(pole **, int, int, int&, int&);
-void PressKey(pole, int, int, int, int&, int&);
-void ShowNeighbour(pole **, int, int, int, int);
+void PressKey(pole, int, int, int, int&, int&, int&);
+void ShowNeighbour(pole **, int, int, int, int, int&);
 void Test(int, int, int, int&, int&);
 void Menu();
 

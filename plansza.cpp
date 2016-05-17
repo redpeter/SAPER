@@ -171,7 +171,7 @@ bool IfBomb(pole**src, int row, int col, int y, int x) {
 
 
 /*Rekurencyjnie odkrywa sasiadow pustego pola */
-void ShowNeighbour(pole **src, int row, int  col, int y, int x)
+void ShowNeighbour(pole **src, int row, int  col, int y, int x, int& zakryte)
 {
 	//UWAGA - 'puste' pole nigdy nie sasiaduje z bomba!
 	for (int r = -1; r <= 1; r++) {
@@ -183,10 +183,12 @@ void ShowNeighbour(pole **src, int row, int  col, int y, int x)
 			}
 			if (src[y + r][x + c].wartosc != 0 && src[y + r][x + c].odkryte == false) { //odkryj niepuste
 				src[y + r][x + c].odkryte = true;
+				zakryte--;
 			}
 			if (src[y + r][x + c].wartosc == 0 && src[y + r][x + c].odkryte == false) { //dla pustych rekurencja - odkrywaj dalej
 				src[y + r][x + c].odkryte = true;
 				ShowNeighbour(src, row, col, y + r, x + c);
+				zakryte--;
 			}
 		}
 	}
@@ -210,7 +212,7 @@ void ShowCell(pole **src, int row, int col, int &y, int &x)
 }
 */
 
-void PressKey(pole **src, int row, int col, int bomb, int &y, int &x)
+void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakryte)
 {
 	bool walk = true; 	//warunek dokad "chodzimy" po planszy
 	int code;			//zmienna przetrzymujaca kod danego klawisza
@@ -221,7 +223,7 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x)
 			case 13:				//nacisniecie entera
 				src[y][x].odkryte = true;
 				if (src[y][x].wartosc == 0)
-					ShowNeighbour(src, row, col, y, x);
+					ShowNeighbour(src, row, col, y, x,zakryte);
 				walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
 				break;
 
@@ -275,10 +277,9 @@ void Test(int row, int col, int bomb, int &y, int &x)
 		Write(src, row, col, y, x);
 		CountFlags(src, row, col, bomb);
 		//ShowCell(src, row, col, y, x);
-		PressKey(src, row, col, bomb, y, x);
+		PressKey(src, row, col, bomb, y, x,zakryte);
 		bomba = IfBomb(src, row, col, y, x);
 		if (bomba == true) break;
-		zakryte--;
 		system("cls");
         }
 		x = 0;
