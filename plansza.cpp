@@ -277,13 +277,6 @@ void Test(int row, int col, int bomb, int &y, int &x)
 		//ShowCell(src, row, col, y, x);
 		PressKey(src, row, col, bomb, y, x);
 		bomba = IfBomb(src, row, col, y, x);
-//////
-	while (1) { // lub trafiles na bombe - tez koniec
-		Write(src, row, col, y, x);
-		CountFlags(src, row, col, bomb);
-		//ShowCell(src, row, col, y, x);
-		PressKey(src, row, col, bomb, y, x);
-		bomba = IfBomb(src, row, col, y, x);
 		if (bomba == true) break;
 		zakryte--;
 		system("cls");
