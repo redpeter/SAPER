@@ -46,7 +46,7 @@ void Write(pole** src, int row, int col, int y, int x)
 		cout << "Problem z odczytaniem tablicy.\n";
 	}
 	else {
-		for (int i = 0; i < col + 2; i++) { // ramka
+		for (int i = 0; i < col+2; i++) { // ramka
 			cout << "-";
 		}
 		cout << endl;
@@ -57,12 +57,12 @@ void Write(pole** src, int row, int col, int y, int x)
 				if (src[i][j].wartosc == BOMB && src[i][j].odkryte == true)
 					cout << "*";
 				else {
-					if (src[i][j].odkryte == false && (i != y || j != x) && src[i][j].flaga == false)
+					if (src[i][j].odkryte == false && (i!=y || j!=x) && src[i][j].flaga == false)
 						cout << "#";
-					else if (src[i][j].odkryte == false && (i == y && j == x))		//pytajnik, zeby widziec gdzie jestesmy
+					else if (src[i][j].odkryte == false && (i==y && j==x))		//pytajnik, zeby widziec gdzie jestesmy
 						cout << "?";
-					else if (src[i][j].odkryte == false && src[i][j].flaga == true)      //wyswietlanie choragiewek jako wykrzyknik
-						cout << "!";
+                    else if (src[i][j].odkryte == false && src[i][j].flaga == true)      //wyswietlanie choragiewek jako wykrzyknik
+                        cout << "!";
 					else if (src[i][j].wartosc == 0)
 						cout << " ";
 					else
@@ -72,7 +72,7 @@ void Write(pole** src, int row, int col, int y, int x)
 			cout << "|\n"; // ramka
 		}
 
-		for (int i = 0; i < col + 2; i++) {
+		for (int i = 0; i < col+2; i++) {
 			cout << "-";
 		}
 		cout << endl;
@@ -81,7 +81,7 @@ void Write(pole** src, int row, int col, int y, int x)
 }
 
 /*Rozmieszcza losowo zadana liczbe bomb na planszy */
-void Random(pole **src, int row, int col, int bombs)
+void Random(pole **src, int row, int col, int bomb)
 {
 	if (src == NULL) {
 		cout << "Problem z odczytaniem tablicy.\n";
@@ -89,7 +89,7 @@ void Random(pole **src, int row, int col, int bombs)
 	}
 	srand(time(NULL));
 	int x, y;
-	while (bombs>0) {
+	while (bomb>0) {
 		x = (rand() % row);
 		y = (rand() % col);
 		if ((src[x][y]).wartosc != BOMB) { //sprawdzamy czy juz nie ma bomby
@@ -106,31 +106,28 @@ void Random(pole **src, int row, int col, int bombs)
 					(src[x + r][y + c]).wartosc += 1; //zwiekszamy o 1 bo dodalismy bombe
 				}
 			}
-			--bombs;
+			--bomb;
 		}
 	}
 	return;
 }
 
-/*Zlicza bomby i wypisuje ich liczbe na ekran
-Zwraca liczbe bomb na planszy */
-int CountBombs(pole **src, int row, int col)
+/*Zlicza chor¹giewki i wypisuje ich liczbe na ekran
+Zwraca liczbe chor¹giewek na planszy */
+int CountFlags(pole **src, int row, int col, int bomb)
 {
-	int i, j, ile = 0;
-	for (i = 0; i<row; i++) {
-		for (j = 0; j<col; j++) {
-			if (src[i][j].wartosc == BOMB) ile++;
-			//			if (src[i][j].wartosc == BOMB && src[i][j].odkryte == false) ile++;
-			//jak juz odkryjemy jakas bombe to i tak jest po ptakach...
-			//po odkryciu bomby blednie zliczaloby bomby. w takiej wersji zliczanie flag
-		}
+	int ile = 0;
+	for (int i = 0; i<row; i++) {
+		for (int j = 0; j<col; j++)
+			if (src[i][j].flaga == true) ile++;
 	}
-	cout << "\nNa planszy pozostalo " << ile << " bomb.\n";
-	return ile;
+	int roznica = bomb - ile;
+	cout << "\nNa planszy pozostalo " << roznica << " bomb.\n";
+	return roznica;
 }
 
 /*Sprawdza, czy nastapila juz wygrana */
-bool IsWin(pole **src, int row, int col)
+bool IsWin(pole **src, int row, int col, int bomb)
 {
 	bool win = false;
 	int zakryte = 0;
@@ -141,8 +138,7 @@ bool IsWin(pole **src, int row, int col)
 			}
 		}
 	}
-	int bombs = CountBombs(src, row, col);
-	if (zakryte == bombs) {
+	if (zakryte == bomb) {
 		win = true;
 		system("cls");
 		cout << "\n";
@@ -157,10 +153,10 @@ bool IfBomb(pole**src, int row, int col, int y, int x) {
 	if (src[y][x].wartosc == BOMB) {
 		system("cls");
 
-		//Po co wywoluje te funkcje?
-		//		Write(src, row, col, y, x);
-		//		CountBombs(src, row, col);
-		//		cout << endl << endl;
+//Po co wywoluje te funkcje?
+//		Write(src, row, col, y, x);
+//		CountFlags(src, row, col, bomb);
+//		cout << endl << endl;
 		cout << "Odkryles bombe, koniec gry!";
 		return true;
 	}
@@ -168,7 +164,7 @@ bool IfBomb(pole**src, int row, int col, int y, int x) {
 	/*	int i = IfBomb(src, y, x);   // fragment wyciety z show
 	if (i == -1) {
 	Write(src, row, col, y, x);
-	CountBombs(src, row, col);
+	CountFlags(src, row, col, bomb);
 	cout << endl << endl;
 	*/
 }
@@ -202,64 +198,64 @@ void ShowNeighbour(pole **src, int row, int  col, int y, int x)
 
 void ShowCell(pole **src, int row, int col, int &y, int &x)
 {
-cout << "podaj x (od 0 do " << col - 1 << "): ";
-cin >> x;
-cout << "podaj y (od 0 do " << row - 1 << "): ";
-cin >> y;
-src[y][x].odkryte = true;
+	cout << "podaj x (od 0 do " << col - 1 << "): ";
+	cin >> x;
+	cout << "podaj y (od 0 do " << row - 1 << "): ";
+	cin >> y;
+	src[y][x].odkryte = true;
 
-if (src[y][x].wartosc == 0) {
-ShowNeighbour(src, row, col, y, x);
-}
+	if (src[y][x].wartosc == 0) {
+		ShowNeighbour(src, row, col, y, x);
+	}
 }
 */
 
-void PressKey(pole **src, int row, int col, int &y, int &x)
+void PressKey(pole **src, int row, int col, int bomb, int &y, int &x)
 {
 	bool walk = true; 	//warunek dokad "chodzimy" po planszy
 	int code;			//zmienna przetrzymujaca kod danego klawisza
-	while (walk) {
+	while(walk){
 		cout << "Jestes na polu: (" << x << ", " << y << ") " << endl;
 		code = getch();				//pobranie kodu wcisnietego klawisza (funkcja ta jest dostepna w bibliotece conio.h)
-		switch (code) {
-		case 13:				//nacisniecie entera
-			src[y][x].odkryte = true;
-			if (src[y][x].wartosc == 0)
-				ShowNeighbour(src, row, col, y, x);
-			walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
-			break;
+		switch (code){
+			case 13:				//nacisniecie entera
+				src[y][x].odkryte = true;
+				if (src[y][x].wartosc == 0)
+					ShowNeighbour(src, row, col, y, x);
+				walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
+				break;
 
-		case 224:				//nacisniecie znaku specjalnego
-			code = getch();
-			switch (code) {
-			case 72:		//strzalka w gore
-				if (y>0)
-					y--;
+			case 224:				//nacisniecie znaku specjalnego
+				code = getch();
+				switch (code){
+					case 72:		//strzalka w gore
+						if(y>0)
+							y--;
+						break;
+					case 80:		//strzalka w dol
+						if(y<row-1)
+							y++;
+						break;
+					case 75:		//strzalka w lewo
+						if(x>0)
+							x--;
+						break;
+					case 77:		//strzalka w prawo
+						if(x<col-1)
+							x++;
+						break;
+				}
+				system("cls");		//chodzimy dalej...
+				Write(src, row, col, y, x);
+				CountFlags(src, row, col, bomb);
 				break;
-			case 80:		//strzalka w dol
-				if (y<row - 1)
-					y++;
-				break;
-			case 75:		//strzalka w lewo
-				if (x>0)
-					x--;
-				break;
-			case 77:		//strzalka w prawo
-				if (x<col - 1)
-					x++;
-				break;
-			}
-			system("cls");		//chodzimy dalej...
-			Write(src, row, col, y, x);
-			CountBombs(src, row, col);
-			break;
 
-		case 32:				//nacisniecie spacji - flaga
-			src[y][x].flaga = true;
-			system("cls");		//chodzimy dalej...
-			Write(src, row, col, y, x);
-			CountBombs(src, row, col);
-			break;
+			case 32:				//nacisniecie spacji - flaga
+				src[y][x].flaga = true;
+				system("cls");		//chodzimy dalej...
+				Write(src, row, col, y, x);
+				CountFlags(src, row, col, bomb);
+				break;
 		}
 	}
 }
@@ -271,22 +267,29 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	if (src == NULL)
 		cout << "Problem\n";
 	Random(src, row, col, bomb);
-	bool wygrana = IsWin(src, row, col);
+	bool wygrana = IsWin(src, row, col, bomb);
 	bool bomba = false;
 	int zakryte = row*col;// zakryte pola
 	zakryte -= bomb;
-	while (zakryte != 0) {
+	while (zakryte!=0) {
 		Write(src, row, col, y, x);
-		CountBombs(src, row, col);
+		CountFlags(src, row, col, bomb);
 		//ShowCell(src, row, col, y, x);
-		PressKey(src, row, col, y, x);
+		PressKey(src, row, col, bomb, y, x);
+		bomba = IfBomb(src, row, col, y, x);
+//////
+	while (1) { // lub trafiles na bombe - tez koniec
+		Write(src, row, col, y, x);
+		CountFlags(src, row, col, bomb);
+		//ShowCell(src, row, col, y, x);
+		PressKey(src, row, col, bomb, y, x);
 		bomba = IfBomb(src, row, col, y, x);
 		if (bomba == true) break;
 		zakryte--;
 		system("cls");
-	}
-	x = 0;
-	y = 0;
+        }
+		x = 0;
+		y = 0;
 	if (zakryte == 0) {
 		cout << "Gratulacje, wygrales!\n\n";
 	}
@@ -298,7 +301,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 
 void Menu()
 {
-	int poziom, row, col, bomby, x = 0, y = 0;
+	int poziom, row, col, bomby, x=0, y=0;
 	while (1>0) {
 		cout << "\nWybierz poziom gry: \n";
 		cout << "1. Poczatkujacy.\n";
