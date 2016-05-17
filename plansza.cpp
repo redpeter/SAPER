@@ -187,8 +187,8 @@ void ShowNeighbour(pole **src, int row, int  col, int y, int x, int& zakryte)
 			}
 			if (src[y + r][x + c].wartosc == 0 && src[y + r][x + c].odkryte == false) { //dla pustych rekurencja - odkrywaj dalej
 				src[y + r][x + c].odkryte = true;
-				ShowNeighbour(src, row, col, y + r, x + c);
 				zakryte--;
+				ShowNeighbour(src, row, col, y + r, x + c, zakryte);
 			}
 		}
 	}
@@ -222,6 +222,7 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 		switch (code){
 			case 13:				//nacisniecie entera
 				src[y][x].odkryte = true;
+				zakryte--;
 				if (src[y][x].wartosc == 0)
 					ShowNeighbour(src, row, col, y, x,zakryte);
 				walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
@@ -281,6 +282,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 		bomba = IfBomb(src, row, col, y, x);
 		if (bomba == true) break;
 		system("cls");
+		cout<<zakryte<<"\n";
         }
 		x = 0;
 		y = 0;
