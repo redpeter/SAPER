@@ -288,7 +288,6 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	}
 	Write(src, row, col, y, x);
 	cout << "\n";
-
 	DeleteArray(&src, row);
 }
 
