@@ -112,8 +112,8 @@ void Random(pole **src, int row, int col, int bomb)
 	return;
 }
 
-/*Zlicza chor¹giewki i wypisuje ich liczbe na ekran
-Zwraca liczbe chor¹giewek na planszy */
+/*Zlicza choragiewki i wypisuje ich liczbe na ekran
+Zwraca liczbe choragiewek na planszy */
 int CountFlags(pole **src, int row, int col, int bomb)
 {
 	int ile = 0;
@@ -122,7 +122,7 @@ int CountFlags(pole **src, int row, int col, int bomb)
 			if (src[i][j].flaga == true) ile++;
 	}
 	int roznica = bomb - ile;
-	cout << "\nNa planszy pozostalo " << roznica << " bomb.\n";
+//	cout << "\nNa planszy pozostalo " << roznica << " bomb do zaznaczenia.\n";
 	return roznica;
 }
 
@@ -218,8 +218,11 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 	int code;			//zmienna przetrzymujaca kod danego klawisza
 	while(walk){
 		cout << "Jestes na polu: (" << x << ", " << y << ") " << endl;
+		int flags = CountFlags(src, row, col, bomb);
+		cout << "Na planszy pozostalo " << flags << " bomb do zaznaczenia." << endl;
+
 		code = getch();				//pobranie kodu wcisnietego klawisza (funkcja ta jest dostepna w bibliotece conio.h)
-		switch (code){
+		switch (code) {
 			case 13:				//nacisniecie entera
 				src[y][x].odkryte = true;
 				zakryte--;
@@ -230,7 +233,7 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 
 			case 224:				//nacisniecie znaku specjalnego
 				code = getch();
-				switch (code){
+				switch (code) {
 					case 72:		//strzalka w gore
 						if(y>0)
 							y--;
@@ -250,14 +253,14 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 				}
 				system("cls");		//chodzimy dalej...
 				Write(src, row, col, y, x);
-				CountFlags(src, row, col, bomb);
+//				CountFlags(src, row, col, bomb);
 				break;
 
 			case 32:				//nacisniecie spacji - flaga
 				src[y][x].flaga = true;
 				system("cls");		//chodzimy dalej...
 				Write(src, row, col, y, x);
-				CountFlags(src, row, col, bomb);
+//				CountFlags(src, row, col, bomb);
 				break;
 		}
 	}
@@ -273,7 +276,7 @@ bool PressKeyMenu(int &option)
 			break;
 		case 224:				//nacisniecie znaku specjalnego
 			code = getch();
-			switch (code){
+			switch (code) {
 				case 72:			//strzalka w gore
 					if(option>1)
 						option--;
@@ -300,7 +303,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	int zakryte = row*col;// zakryte pola
 	while (zakryte != bomb) {
 		Write(src, row, col, y, x);
-		CountFlags(src, row, col, bomb);
+		//CountFlags(src, row, col, bomb);
 		//ShowCell(src, row, col, y, x);
 		PressKey(src, row, col, bomb, y, x,zakryte);
 		bomba = IfBomb(src, row, col, y, x);
