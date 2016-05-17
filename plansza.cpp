@@ -263,6 +263,31 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 	}
 }
 
+bool PressKeyMenu(int &option)
+{
+	int code;					
+	code = getch();				//pobranie kodu nacisnietego kalwisza
+	switch(code){
+		case 13:				//nacisniecie entera
+			return false;		//koniec wybierania, czas oddtworzyc porzadana opcje
+			break;
+		case 224:				//nacisniecie znaku specjalnego
+			code = getch();
+			switch (code){
+				case 72:			//strzalka w gore
+					if(option>1)
+						option--;
+					return true; 
+					break;
+				case 80:			//strzalka w dol
+					if(option<5)
+						option++;
+					return true;
+					break;
+			}		
+	}
+}
+
 void Test(int row, int col, int bomb, int &y, int &x)
 {
 	struct pole** src;
@@ -295,17 +320,23 @@ void Test(int row, int col, int bomb, int &y, int &x)
 
 void Menu()
 {
-	int poziom, row, col, bomby, x=0, y=0;
+	int row, col, bomby, x=0, y=0, option=1;
+	bool walk = true;	//warunek prawdziwy do kiedy wybieramy opbje
+	
 	while (1>0) {
-		cout << "\nWybierz poziom gry: \n";
-		cout << "1. Poczatkujacy.\n";
-		cout << "2. Sredniozaawansowany.\n";
-		cout << "3. Ekspert.\n";
-		cout << "4. Niestandardowy.\n\n";
-		cout << "0. Wyjscie z gry.\n\n";
-		cin >> poziom;
-		switch (poziom) {
-		case 0:
+		while(walk){
+			cout << "\nWybierz poziom gry: \n";
+			cout << ((option == 1) ? "->" : "1.") << " Poczatkujacy.\n";
+			cout << ((option == 2) ? "->" : "2.") << " Sredniozaawansowany.\n";
+			cout << ((option == 3) ? "->" : "3.") << " Ekspert.\n";
+			cout << ((option == 4) ? "->" : "4.") << " Niestandardowy.\n\n";
+			cout << ((option == 5) ? "->" : "5.") << " Wyjscie z gry.\n\n";
+			walk = PressKeyMenu(option);	//nacisniecie klawisza
+			system("cls");
+		}
+		
+		switch (option) {
+		case 5:
 			cout << "Dziekujemy za wspolna zabawe.\n";
 			return;
 		case 1:
@@ -338,5 +369,6 @@ void Menu()
 			cout << "Ups. Nieprawidlowy wybor. Wybierz cyfre od 0 do 4.\n";
 			break;
 		}
+		walk = true; //ponowna mozliwosc wybierania opcji z menu
 	}
 }
