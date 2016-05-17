@@ -273,8 +273,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	bool wygrana = IsWin(src, row, col, bomb);
 	bool bomba = false;
 	int zakryte = row*col;// zakryte pola
-	zakryte -= bomb;
-	while (zakryte!=0) {
+	while (zakryte != bomb) {
 		Write(src, row, col, y, x);
 		CountFlags(src, row, col, bomb);
 		//ShowCell(src, row, col, y, x);
