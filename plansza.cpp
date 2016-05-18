@@ -1,5 +1,6 @@
 #include "plansza.h"
 #include <iostream>
+#include <windows.h>
 #include <cstdlib>
 #include <ctime> //do losowania liczb
 #include <conio.h> //obsluga klawiszy
@@ -41,6 +42,9 @@ struct pole **CreateArray(int row, int col)
 /*Wypisuje plansze na ekran */
 void Write(pole** src, int row, int col, int y, int x)
 {
+    HANDLE hOut;
+    hOut=GetStdHandle(STD_OUTPUT_HANDLE);
+
 	cout << "\n\n";
 	if (src == NULL) {
 		cout << "Problem z odczytaniem tablicy.\n";
@@ -59,9 +63,12 @@ void Write(pole** src, int row, int col, int y, int x)
 				else {
 					if (src[i][j].odkryte == false && (i!=y || j!=x) && src[i][j].flaga == false)
 						cout << "#";
-					else if (src[i][j].odkryte == false && (i==y && j==x))		//pytajnik, zeby widziec gdzie jestesmy
+					else if (src[i][j].odkryte == false && (i==y && j==x)){
+                        SetConsoleTextAttribute( hOut, FOREGROUND_GREEN );
 						cout << "?";
-                    else if (src[i][j].odkryte == false && src[i][j].flaga == true)      //wyswietlanie choragiewek jako wykrzyknik
+						SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
+					}
+                    else if (src[i][j].odkryte == false && src[i][j].flaga == true)
                         cout << "!";
 					else if (src[i][j].wartosc == 0)
 						cout << " ";
@@ -272,7 +279,7 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 
 bool PressKeyMenu(int &option)
 {
-	int code;					
+	int code;
 	code = getch();				//pobranie kodu nacisnietego kalwisza
 	switch(code){
 		case 13:				//nacisniecie entera
@@ -284,14 +291,14 @@ bool PressKeyMenu(int &option)
 				case 72:			//strzalka w gore
 					if(option>1)
 						option--;
-					return true; 
+					return true;
 					break;
 				case 80:			//strzalka w dol
 					if(option<5)
 						option++;
 					return true;
 					break;
-			}		
+			}
 	}
 }
 
@@ -328,7 +335,7 @@ void Menu()
 {
 	int row, col, bomby, x=0, y=0, option=1;
 	bool walk = true;	//warunek prawdziwy do kiedy wybieramy opcje
-	
+
 	while (1>0) {
 		while(walk){
 			cout << "\nWybierz poziom gry: \n";
@@ -340,7 +347,7 @@ void Menu()
 			walk = PressKeyMenu(option);	//nacisniecie klawisza
 			system("cls");
 		}
-		
+
 		switch (option) {
 		case 5:
 			cout << "Dziekujemy za wspolna zabawe.\n";
