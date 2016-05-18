@@ -157,7 +157,7 @@ bool IfBomb(pole**src, int row, int col, int y, int x) {
 //		Write(src, row, col, y, x);
 //		CountFlags(src, row, col, bomb);
 //		cout << endl << endl;
-		cout << "Odkryles bombe, koniec gry!";
+		cout << "Odkryles bombe, koniec gry! Sprobuj jeszcze raz:";
 		return true;
 	}
 	return false;
@@ -227,7 +227,7 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 				src[y][x].odkryte = true;
 				zakryte--;
 				if (src[y][x].wartosc == 0)
-					ShowNeighbour(src, row, col, y, x,zakryte);
+					ShowNeighbour(src, row, col, y, x, zakryte);
 				walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
 				break;
 
@@ -300,7 +300,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	Random(src, row, col, bomb);
 	bool wygrana = IsWin(src, row, col, bomb);
 	bool bomba = false;
-	int zakryte = row*col;// zakryte pola
+	int zakryte = row*col; // zakryte pola
 	while (zakryte != bomb) {
 		Write(src, row, col, y, x);
 		//CountFlags(src, row, col, bomb);
@@ -309,10 +309,9 @@ void Test(int row, int col, int bomb, int &y, int &x)
 		bomba = IfBomb(src, row, col, y, x);
 		if (bomba == true) break;
 		system("cls");
-		cout<<zakryte<<"\n";
-        }
-		x = 0;
-		y = 0;
+    }
+	x = 0;
+	y = 0;
 	if (zakryte == 0) {
 		cout << "Gratulacje, wygrales!\n\n";
 	}
@@ -365,6 +364,7 @@ void Menu()
 			cin >> col;
 			cout << "Teraz podaj liczbe bomb. Musi ona byc mniejsza od " << row*col << " .\n";
 			cin >> bomby;
+			system("cls");
 			Test(row, col, bomby, y, x);
 			break;
 		default:
