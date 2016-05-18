@@ -258,7 +258,10 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 				break;
 
 			case 32:				//nacisniecie spacji - flaga
-				src[y][x].flaga = true;
+				if(src[y][x].flaga == false)
+					src[y][x].flaga = true;
+				else
+					src[y][x].flaga = false;
 				system("cls");		//chodzimy dalej...
 				Write(src, row, col, y, x);
 //				CountFlags(src, row, col, bomb);
@@ -324,7 +327,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 void Menu()
 {
 	int row, col, bomby, x=0, y=0, option=1;
-	bool walk = true;	//warunek prawdziwy do kiedy wybieramy opbje
+	bool walk = true;	//warunek prawdziwy do kiedy wybieramy opcje
 	
 	while (1>0) {
 		while(walk){
