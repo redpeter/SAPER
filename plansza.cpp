@@ -127,8 +127,8 @@ int CountFlags(pole **src, int row, int col, int bomb)
 }
 
 /*Sprawdza, czy nastapila juz wygrana */
-/*bool IsWin(pole **src, int row, int col, int bomb)
-{
+/*
+bool IsWin(pole **src, int row, int col, int bomb){
 	bool win = false;
 	int zakryte = 0;
 	for (int i = 0; i<row; i++) {
@@ -147,6 +147,7 @@ int CountFlags(pole **src, int row, int col, int bomb)
 	return win;
 }
 */
+
 /*Sprawdza, czy odkryto bombe, czysci ekran
 i informuje uzytkownika o ewentualnej przegranej.*/
 bool IfBomb(pole**src, int row, int col, int y, int x) {
@@ -298,7 +299,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	if (src == NULL)
 		cout << "Problem\n";
 	Random(src, row, col, bomb);
-	//bool wygrana = IsWin(src, row, col, bomb);
+//	bool wygrana = IsWin(src, row, col, bomb);
 	bool bomba = false;
 	int zakryte = row*col; // zakryte pola
 	while (zakryte != bomb) {
@@ -312,7 +313,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
     }
 	x = 0;
 	y = 0;
-	if (zakryte == bomb) {
+	if (zakryte == bomb) { //warunek wygranej
 		cout << "Gratulacje, wygrales!\n\n";
 	}
 	Write(src, row, col, y, x);
