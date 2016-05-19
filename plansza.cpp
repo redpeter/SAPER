@@ -277,11 +277,13 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 		code = getch();				//pobranie kodu wcisnietego klawisza (funkcja ta jest dostepna w bibliotece conio.h)
 		switch (code) {
 			case 32:				//nacisniecie entera
-				src[y][x].odkryte = true;
-				zakryte--;
-				if (src[y][x].wartosc == 0)
-					ShowNeighbour(src, row, col, y, x, zakryte);
-				walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
+				if(src[y][x].flaga == false){
+					src[y][x].odkryte = true;
+					zakryte--;
+					if (src[y][x].wartosc == 0)
+						ShowNeighbour(src, row, col, y, x, zakryte);
+					walk = false;		//koniec chodzenia, czas sprawdzic, czy to bomba, czy wygrana
+				}
 				break;
 
 			case 224:				//nacisniecie znaku specjalnego
@@ -310,9 +312,9 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 				break;
 
 			case 13:				//nacisniecie spacji - flaga
-				if(src[y][x].flaga == false)
+				if(src[y][x].flaga == false)	// ustawienie flagi
 					src[y][x].flaga = true;
-				else
+				else							// usuniecie flagi
 					src[y][x].flaga = false;
 				system("cls");		//chodzimy dalej...
 				Write(src, row, col, y, x);
