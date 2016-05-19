@@ -44,15 +44,12 @@ void Write(pole** src, int row, int col, int y, int x)
 {
     HANDLE hOut;
     hOut=GetStdHandle(STD_OUTPUT_HANDLE);
-
 	cout << "\n\n";
-	if (src == NULL) {
+	if (src == NULL)
 		cout << "Problem z odczytaniem tablicy.\n";
-	}
 	else {
-		for (int i = 0; i < col+2; i++) { // ramka
+		for (int i = 0; i < col+2; i++) // ramka
 			cout << "-";
-		}
 		cout << endl;
 
 		for (int i = 0; i<row; i++) {
@@ -64,25 +61,72 @@ void Write(pole** src, int row, int col, int y, int x)
 					if (src[i][j].odkryte == false && (i!=y || j!=x) && src[i][j].flaga == false)
 						cout << "#";
 					else if (src[i][j].odkryte == false && (i==y && j==x)){
-                        SetConsoleTextAttribute( hOut, FOREGROUND_GREEN );
+                        SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);
 						cout << "?";
 						SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
 					}
                     else if (src[i][j].odkryte == false && src[i][j].flaga == true)
                         cout << "!";
-					else if (src[i][j].wartosc == 0)
-						cout << " ";
-					else
-						cout << src[i][j].wartosc;
-				}
-			}
-			cout << "|\n"; // ramka
-		}
-
-		for (int i = 0; i < col+2; i++) {
-			cout << "-";
-		}
-		cout << endl;
+					else if (src[i][j].wartosc == 0){
+					    if(i==y && j==x){
+                            SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);
+                            cout << " ";
+                            SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
+					    }
+					    else
+                            cout << " ";
+					}
+					else{
+                        if(i==y && j==x){
+                            SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);
+                            cout << src[i][j].wartosc;
+                            SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
+					    }
+					    else{
+                            switch(src[i][j].wartosc){
+                            case 1:
+                                SetConsoleTextAttribute( hOut, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                                cout <<src[i][j].wartosc;
+                                break;
+                            case 2:
+                                SetConsoleTextAttribute( hOut, FOREGROUND_GREEN );
+                                cout <<src[i][j].wartosc;
+                                break;
+                            case 3:
+                                SetConsoleTextAttribute( hOut, FOREGROUND_RED | FOREGROUND_INTENSITY);
+                                cout <<src[i][j].wartosc;
+                                break;
+                            case 4:
+                                SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY );
+                                cout <<src[i][j].wartosc;
+                                break;
+                            case 5:
+                                SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_RED );
+                                cout <<src[i][j].wartosc;
+                                break;
+                            case 6:
+                                SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE );
+                                cout <<src[i][j].wartosc;
+                                break;
+                            case 7:
+                                SetConsoleTextAttribute( hOut, FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY );
+                                cout <<src[i][j].wartosc;
+                                break;
+                            case 8:
+                                SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
+                                cout <<src[i][j].wartosc;
+                                break;
+                            }
+                            SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
+                        }
+                    }
+                }
+            }
+        cout << "|\n"; // ramka
+    }
+    for (int i = 0; i < col+2; i++)
+        cout << "-";
+    cout << endl;
 	}
 	return;
 }
