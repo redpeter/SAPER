@@ -44,7 +44,7 @@ void Write(pole** src, int row, int col, int y, int x)
 {
     HANDLE hOut;
     hOut=GetStdHandle(STD_OUTPUT_HANDLE);
-	cout << "\n\n";
+	cout << "\n";
 	if (src == NULL)
 		cout << "Problem z odczytaniem tablicy.\n";
 	else {
@@ -272,6 +272,7 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 		cout << "Jestes na polu: (" << x << ", " << y << ") " << endl;
 		int flags = CountFlags(src, row, col, bomb);
 		cout << "Na planszy pozostalo " << flags << " bomb do zaznaczenia." << endl;
+		cout << "Enter - odkryj pole, spacja - oznacz/odznacz bombe." << endl;
 
 		code = getch();				//pobranie kodu wcisnietego klawisza (funkcja ta jest dostepna w bibliotece conio.h)
 		switch (code) {
