@@ -272,11 +272,11 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 		cout << "Jestes na polu: (" << x << ", " << y << ") " << endl;
 		int flags = CountFlags(src, row, col, bomb);
 		cout << "Na planszy pozostalo " << flags << " bomb do zaznaczenia." << endl;
-		cout << "Enter - odkryj pole, spacja - oznacz/odznacz bombe." << endl;
+		cout << "Spacja - odkryj pole, enter - oznacz/odznacz bombe." << endl;
 
 		code = getch();				//pobranie kodu wcisnietego klawisza (funkcja ta jest dostepna w bibliotece conio.h)
 		switch (code) {
-			case 13:				//nacisniecie entera
+			case 32:				//nacisniecie entera
 				src[y][x].odkryte = true;
 				zakryte--;
 				if (src[y][x].wartosc == 0)
@@ -309,7 +309,7 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 //				CountFlags(src, row, col, bomb);
 				break;
 
-			case 32:				//nacisniecie spacji - flaga
+			case 13:				//nacisniecie spacji - flaga
 				if(src[y][x].flaga == false)
 					src[y][x].flaga = true;
 				else
