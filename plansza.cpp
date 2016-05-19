@@ -1,9 +1,9 @@
 #include "plansza.h"
 #include <iostream>
-#include <windows.h>
+#include <windows.h>	//kolory
 #include <cstdlib>
-#include <ctime> //do losowania liczb
-#include <conio.h> //obsluga klawiszy
+#include <ctime> 		//do losowania liczb
+#include <conio.h> 		//obsluga klawiszy
 
 /*Usuwa tablice 2D*/
 void DeleteArray(pole ***pArray, int row)
@@ -277,7 +277,7 @@ void PressKey(pole **src, int row, int col, int bomb, int &y, int &x, int& zakry
 		code = getch();				//pobranie kodu wcisnietego klawisza (funkcja ta jest dostepna w bibliotece conio.h)
 		switch (code) {
 			case 32:				//nacisniecie entera
-				if(src[y][x].flaga == false){
+				if(src[y][x].flaga == false){		//mozna odkrywac tylko jesli pole nie jest oznaczone flaga
 					src[y][x].odkryte = true;
 					zakryte--;
 					if (src[y][x].wartosc == 0)
