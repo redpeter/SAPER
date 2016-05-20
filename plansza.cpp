@@ -61,7 +61,7 @@ void Write(pole** src, int row, int col, int y, int x)
 					if (src[i][j].odkryte == false && (i!=y || j!=x) && src[i][j].flaga == false)
 						cout << "#";
 					else if (src[i][j].odkryte == false && (i==y && j==x)){
-                        SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);				//Zmiana kolorów
+                        SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);				//Zmiana kolorow
 						cout << "?";
 						SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
 					}
@@ -204,11 +204,6 @@ i informuje uzytkownika o ewentualnej przegranej.*/
 bool IfBomb(pole**src, int row, int col, int y, int x) {
 	if (src[y][x].wartosc == BOMB) {
 		system("cls");
-
-//Po co wywoluje te funkcje?
-//		Write(src, row, col, y, x);
-//		CountFlags(src, row, col, bomb);
-//		cout << endl << endl;
 		cout << "Odkryles bombe, koniec gry! Sprobuj jeszcze raz:";
 		return true;
 	}
@@ -220,7 +215,6 @@ bool IfBomb(pole**src, int row, int col, int y, int x) {
 	cout << endl << endl;
 	*/
 }
-
 
 /*Rekurencyjnie odkrywa sasiadow pustego pola */
 void ShowNeighbour(pole **src, int row, int  col, int y, int x, int& zakryte)
@@ -246,10 +240,7 @@ void ShowNeighbour(pole **src, int row, int  col, int y, int x, int& zakryte)
 	}
 }
 
-
-
 /*Pobiera od usera pole do odkrycia i odkrywa je
-
 void ShowCell(pole **src, int row, int col, int &y, int &x)
 {
 	cout << "podaj x (od 0 do " << col - 1 << "): ";
@@ -399,23 +390,23 @@ void Menu()
 		case 5:
 			cout << "Dziekujemy za wspolna zabawe.\n";
 			return;
-		case 1:
+		case 1:		//poczatkujacy
 			row = col = 8;
 			bomby = 10;
 			Test(row, col, bomby, y, x);
 			break;
-		case 2:
+		case 2:		//sredniozaawansowany
 			row = col = 16;
 			bomby = 40;
 			Test(row, col, bomby, y, x);
 			break;
-		case 3:
+		case 3:		//ekspert
 			row = 16;
 			col = 30;
 			bomby = 99;
 			Test(row, col, bomby, y, x);
 			break;
-		case 4:
+		case 4:		//niestandordowy
 			cout << "Podaj wymiary Twojej tablicy.\nLiczba wierszy: \n";
 			cin >> row;
 			cout << "Liczba kolumn: \n";
@@ -433,3 +424,4 @@ void Menu()
 		walk = true; //ponowna mozliwosc wybierania opcji z menu
 	}
 }
+
