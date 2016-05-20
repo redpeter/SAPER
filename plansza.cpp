@@ -61,7 +61,7 @@ void Write(pole** src, int row, int col, int y, int x)
 					if (src[i][j].odkryte == false && (i!=y || j!=x) && src[i][j].flaga == false)
 						cout << "#";
 					else if (src[i][j].odkryte == false && (i==y && j==x)){
-                        SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);
+                        SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);				//Zmiana kolorów
 						cout << "?";
 						SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
 					}
@@ -356,7 +356,7 @@ void Test(int row, int col, int bomb, int &y, int &x)
 	if (src == NULL)
 		cout << "Problem\n";
 	Random(src, row, col, bomb);
-//	bool wygrana = IsWin(src, row, col, bomb);
+		//	bool wygrana = IsWin(src, row, col, bomb);
 	bool bomba = false;
 	int zakryte = row*col; // zakryte pola
 	while (zakryte != bomb) {
