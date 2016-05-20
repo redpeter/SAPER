@@ -60,13 +60,20 @@ void Write(pole** src, int row, int col, int y, int x)
 				else {
 					if (src[i][j].odkryte == false && (i!=y || j!=x) && src[i][j].flaga == false)
 						cout << "#";
-					else if (src[i][j].odkryte == false && (i==y && j==x)){
+					else if (src[i][j].odkryte == false && src[i][j].flaga == false && (i==y && j==x)){
                         SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);				//Zmiana kolorow
 						cout << "?";
 						SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
 					}
-                    else if (src[i][j].odkryte == false && src[i][j].flaga == true)
-                        cout << "!";
+                    else if (src[i][j].odkryte == false && src[i][j].flaga == true){
+                        if(i==y && j==x){
+                            SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);
+                            cout << "!";
+                            SetConsoleTextAttribute( hOut, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED );
+                        }
+                        else
+                            cout << "!";
+                    }
 					else if (src[i][j].wartosc == 0){
 					    if(i==y && j==x){
                             SetConsoleTextAttribute( hOut, BACKGROUND_GREEN | BACKGROUND_INTENSITY);
